@@ -1,0 +1,46 @@
+plugins {
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
+}
+
+mainClassName = 'com.thftgr.Main'
+
+version '1.0'
+
+sourceCompatibility = targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+
+}
+
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'com.google.guava:guava:26.0-jre'
+    testImplementation 'junit:junit:4.12'
+    compile "net.dv8tion:JDA:4.1.1_101"
+    compile files("${System.properties['java.home']}/../lib/tools.jar")
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    compile 'com.github.francesco149:koohii:1.2.2'
+    compile group: 'net.lingala.zip4j', name: 'zip4j', version: '2.6.1'
+    //compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.6.0'
+
+    //compile group: 'net.sourceforge.tess4j', name: 'tess4j', version: '4.5.1'
+    //=====testing =====
+    //compile 'net.sourceforge.tess4j:tess4j:4.5.1'
+
+//    compile group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha1'
+//    compile 'org.slf4j:slf4j-jdk14:2.0.0-alpha1'
+//    compile 'org.slf4j:slf4j-simple:2.0.0-alpha1'
+//    compile 'org.slf4j:slf4j-log4j12:2.0.0-alpha1'
+//    annotationProcessor 'io.vertx:vertx-codegen:3.9.1:processor'
+//    annotationProcessor 'io.vertx:vertx-web-api-service:3.9.1'
+//    compile 'io.vertx:vertx-web-api-service:3.9.1'
+//    compile 'org.openpnp:opencv:4.3.0-1'
+//    compile 'org.tensorflow:tensorflow:1.14.0'
+
+}
+
+compileJava.options.encoding = 'UTF-8'
