@@ -55,38 +55,6 @@ public class MessageBuilder {
         return msg;
     }
 
-    String mapSetInfo(JsonArray mapSetJsonArray) {
-        String[] modeList = {"", "", "", "", ""};
-
-        int i = avgPlaytime(mapSetJsonArray);
-        String info = "▸PlayTime AVG: " + (i / 60) + "m " + (i - ((i / 60) * 60)) + "s ▸BPM: " + NonNull(mapSetJsonArray.get(0).getAsJsonObject(), "bpm") + "\n";
-
-        for (int ii = 0; ii < mapSetJsonArray.size(); ii++) {
-            JsonObject J = mapSetJsonArray.get(ii).getAsJsonObject();
-            String msg = "★" + String.format("%,.2f", Double.parseDouble(J.get("difficultyrating").getAsString())) + " -  " + J.get("version").getAsString();
-            int mod = J.get("mode").getAsInt();
-            if (mod == 3) {
-                msg += " [" + J.get("diff_size").getAsString() + " key]";
-            }
-            modeList[J.get("mode").getAsInt()] += msg + "\n";
-
-        }
-
-        if (!(modeList[0].equals(""))) {
-            modeList[4] += "[osu!]\n" + modeList[0] + "\n";
-        }
-        if (!(modeList[1].equals(""))) {
-            modeList[4] += "[osu!taiko]\n" + modeList[1] + "\n";
-        }
-        if (!(modeList[2].equals(""))) {
-            modeList[4] += "[osu!catch]\n" + modeList[2] + "\n";
-        }
-        if (!(modeList[3].equals(""))) {
-            modeList[4] += "[osu!mania]\n" + modeList[3] + "\n";
-        }
-        return info + "\n" + modeList[4];
-    }
-
     String mapInfoWithPP(JsonObject mapJsonObject) {
         //여기에 상세정보를 제작
         int i = Integer.parseInt(NonNull(mapJsonObject, "total_length"));
@@ -122,6 +90,38 @@ public class MessageBuilder {
 
 
         return msg;
+    }
+
+    String mapSetInfo(JsonArray mapSetJsonArray) {
+        String[] modeList = {"", "", "", "", ""};
+
+        int i = avgPlaytime(mapSetJsonArray);
+        String info = "▸PlayTime AVG: " + (i / 60) + "m " + (i - ((i / 60) * 60)) + "s ▸BPM: " + NonNull(mapSetJsonArray.get(0).getAsJsonObject(), "bpm") + "\n";
+
+        for (int ii = 0; ii < mapSetJsonArray.size(); ii++) {
+            JsonObject J = mapSetJsonArray.get(ii).getAsJsonObject();
+            String msg = "★" + String.format("%,.2f", Double.parseDouble(J.get("difficultyrating").getAsString())) + " -  " + J.get("version").getAsString();
+            int mod = J.get("mode").getAsInt();
+            if (mod == 3) {
+                msg += " [" + J.get("diff_size").getAsString() + " key]";
+            }
+            modeList[J.get("mode").getAsInt()] += msg + "\n";
+
+        }
+
+        if (!(modeList[0].equals(""))) {
+            modeList[4] += "[osu!]\n" + modeList[0] + "\n";
+        }
+        if (!(modeList[1].equals(""))) {
+            modeList[4] += "[osu!taiko]\n" + modeList[1] + "\n";
+        }
+        if (!(modeList[2].equals(""))) {
+            modeList[4] += "[osu!catch]\n" + modeList[2] + "\n";
+        }
+        if (!(modeList[3].equals(""))) {
+            modeList[4] += "[osu!mania]\n" + modeList[3] + "\n";
+        }
+        return info + "\n" + modeList[4];
     }
 
     String mapSetInfoWithPP(JsonArray mapSetJsonArray) {

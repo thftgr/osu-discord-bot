@@ -195,7 +195,6 @@ public class Message {
     void addPage(net.dv8tion.jda.api.entities.Message message) {
         message.addReaction("U+23EA").queue();
         message.addReaction("U+23E9").queue();
-
     }
 
     void editMessage(MessageChannel channel, String messageID, EmbedBuilder eb) {
