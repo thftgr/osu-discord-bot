@@ -24,13 +24,7 @@ class osuIRC {
 
 
         try {
-            JsonArray channelList = Main.settingValue.get("rank_map_notice").getAsJsonArray();
 
-            MessageChannel[] messageChannelList = new MessageChannel[channelList.size()];
-
-            for (int i = 0; i < channelList.size(); i++) {
-                messageChannelList[i] = jda.getTextChannelById(channelList.get(i).getAsString());
-            }
 
             String server = Main.settingValue.get("irc.url").getAsString();
             int port = Main.settingValue.get("irc.port").getAsInt();
@@ -76,6 +70,13 @@ class osuIRC {
 
                 System.out.println(line);
                 if (line.contains(":[https://osu.ppy.sh/beatmapsets/")) { //has just been ranked!
+
+                    JsonArray channelList = Main.settingValue.get("rank_map_notice").getAsJsonArray();
+                    MessageChannel[] messageChannelList = new MessageChannel[channelList.size()];
+                    for (int i = 0; i < channelList.size(); i++) {
+                        messageChannelList[i] = jda.getTextChannelById(channelList.get(i).getAsString());
+                    }
+
 
                     String mapSetId = line.substring(line.indexOf(":[https:") + 33);
                     mapSetId = mapSetId.substring(0, mapSetId.indexOf(" "));
