@@ -1,6 +1,5 @@
-package com.thftgr;
+package com.thftgr.bot;
 
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class ThreadRun {
@@ -82,17 +81,12 @@ public class ThreadRun {
 
     public static class rankWatcher implements Runnable {
 
-        JDA jda;
-
-        public rankWatcher(JDA jda) {
-            this.jda = jda;
+        public rankWatcher() {
         }
 
         public void run() {
-            while (true) new osuIRC().rankWatcher(this.jda);
-
+            while (true) new osuIRC().rankWatcher();
         }
-
     }
 
     public static class setNewRankedMapnotice implements Runnable {
@@ -111,6 +105,18 @@ public class ThreadRun {
 
         }
 
+    }
+
+    public static class setBotStatus implements Runnable {
+        String[] array;
+
+        public setBotStatus(String[] array) {
+            this.array = array;
+        }
+
+        public void run() {
+            new JDAEvent().status(array[1], array[2]);
+        }
     }
 
 

@@ -1,4 +1,4 @@
-package com.thftgr;
+package com.thftgr.bot;
 
 import com.google.gson.JsonArray;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -110,7 +110,7 @@ public class ApiUtil {
                 new Message().sayEmbed(channel, "download finished : \n" + fn + "\n[thftgr](https://www.xiiov.com/d/" + getBeatmapFilename(md, false) + ")");
 
             } else {
-                channel.sendMessage("> 😢 Beatmap Not Found!" + mapStart).queue();
+                channel.sendMessage("> 😢 BeatmapDecoder Not Found!" + mapStart).queue();
             }
         } else {
             int start = Integer.parseInt(mapStart);

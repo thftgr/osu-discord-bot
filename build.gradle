@@ -3,7 +3,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '4.0.4'
 }
 
-mainClassName = 'com.thftgr.Main'
+mainClassName = 'com.thftgr.bot.Main'
 
 version '1.0'
 
@@ -25,9 +25,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     compile 'com.github.francesco149:koohii:1.2.2'
     compile group: 'net.lingala.zip4j', name: 'zip4j', version: '2.6.1'
-    //compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.6.0'
 
-    //compile group: 'net.sourceforge.tess4j', name: 'tess4j', version: '4.5.1'
+
+    
     //=====testing =====
     //compile 'net.sourceforge.tess4j:tess4j:4.5.1'
 

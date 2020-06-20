@@ -1,4 +1,4 @@
-package com.thftgr;
+package com.thftgr.bot;
 
 import com.github.francesco149.koohii.Koohii;
 import com.google.gson.JsonObject;
@@ -6,12 +6,10 @@ import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 
 public class PpCalc {
 
     float ppCalc(File beatMapFile, float accuracy, int modesInt) {
-//        JsonObject jo = new JsonObject();
         try {
 
 
@@ -20,9 +18,12 @@ public class PpCalc {
             Koohii.Accuracy acc = new Koohii.Accuracy(accuracy, beatmap.objects.size(), 0);
             Koohii.PPv2Parameters params = new Koohii.PPv2Parameters();
 
+
             params.beatmap = beatmap;
             params.aim_stars = stars.aim;
             params.speed_stars = stars.speed;
+
+
             params.mods = modesInt;
             params.n300 = acc.n300;
             params.n100 = acc.n100;
@@ -33,7 +34,6 @@ public class PpCalc {
             params.base_od = beatmap.od;
 
             Koohii.PPv2 pp = new Koohii.PPv2(params);
-//            jo.addProperty(beatmap.version, String.format("%.2f", pp.total));
             return (float) pp.total;
         } catch (Exception ignored) {
         }

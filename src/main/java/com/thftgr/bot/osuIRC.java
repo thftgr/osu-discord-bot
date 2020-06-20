@@ -1,4 +1,4 @@
-package com.thftgr;
+package com.thftgr.bot;
 
 import com.google.gson.JsonArray;
 import net.dv8tion.jda.api.JDA;
@@ -20,7 +20,7 @@ class osuIRC {
         }
     }
 
-    public void rankWatcher(JDA jda) {
+    public void rankWatcher() {
 
 
         try {
@@ -74,7 +74,7 @@ class osuIRC {
                     JsonArray channelList = Main.settingValue.get("rank_map_notice").getAsJsonArray();
                     MessageChannel[] messageChannelList = new MessageChannel[channelList.size()];
                     for (int i = 0; i < channelList.size(); i++) {
-                        messageChannelList[i] = jda.getTextChannelById(channelList.get(i).getAsString());
+                        messageChannelList[i] = EventListener.mainJda.getTextChannelById(channelList.get(i).getAsString());
                     }
 
 
@@ -104,9 +104,6 @@ class osuIRC {
                                     return;
                                 }
                             }
-
-
-
 
 
                             new Thread(new ThreadRun.beatmapSetPrint(messageChannelList[i], mapSetId, "[NEW_RANKED_MAPSET]\n")).start();

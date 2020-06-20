@@ -1,13 +1,9 @@
-package com.thftgr;
+package com.thftgr.bot;
 
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
@@ -15,12 +11,11 @@ import net.dv8tion.jda.api.events.user.update.UserUpdateOnlineStatusEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.annotation.Nonnull;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 
 
 public class EventListener extends ListenerAdapter {
+    public static JDA mainJda;
+
 
     @Override // 특정 누군가의 온라인 status 이벤트
     public void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent event) {
@@ -38,7 +33,8 @@ public class EventListener extends ListenerAdapter {
     @Override //봇 시작시
     public void onReady(@Nonnull ReadyEvent event) {
         super.onReady(event);
-        new Thread(new ThreadRun.rankWatcher(event.getJDA())).start();
+        new Thread(new ThreadRun.rankWatcher()).start();
+        mainJda = event.getJDA();
     }
 
     @Override // 반응 이모지 추가시
@@ -50,10 +46,12 @@ public class EventListener extends ListenerAdapter {
 
     }
 
+
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
 
         //System.out.println("permission :"+e.getMember().getPermissions().toString().contains("ADMINISTRATOR"));
+
         if (e.getMember().getUser().isBot()) return;
 
 
@@ -139,6 +137,27 @@ public class EventListener extends ListenerAdapter {
                     new Thread(new ThreadRun.setNewRankedMapnotice(e.getChannel())).start();
                 } else {
                     e.getChannel().sendMessage("This Command Can Use Server Owner").queue();
+                }
+                break;
+
+
+            case "s":
+            case "status":
+                if (!e.getAuthor().getId().equals("368620104365244418")) {
+                    new Message().sayMsg(e.getChannel(), "이 기능은 봇 주인만 가능합니다. thftgr#3102 에게 문의하세요.", null);
+                    break;
+                }
+
+
+                if (array.length > 2) {
+                    if (array.length > 3) {
+                        for (int i = 3; i < array.length; i++) {
+                            array[2] += " " + array[i];
+                        }
+                    }
+                    new Thread(new ThreadRun.setBotStatus(array)).start();
+                } else {
+                    new Message().sayMsg(e.getChannel(), "!status, s[P, L, W] [String Status use \"\" ]", null);
                 }
                 break;
 

@@ -1,4 +1,4 @@
-package com.thftgr;
+package com.thftgr.bot;
 
 import com.google.gson.JsonArray;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -9,17 +9,6 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 
 public class Util {
-
-//    public String getToken(String keyType) {
-//        try {
-//            File file = new File("setting/" + keyType + ".key");
-//
-//            return new BufferedReader(new FileReader(file)).readLine();
-//
-//        } catch (IOException e) {
-//            return e.toString();
-//        }
-//    }
 
     public void download(String sourceUrl, String targetFilename) {
         FileOutputStream fos = null;
@@ -129,6 +118,26 @@ public class Util {
         return jaa;
 
 
+    }
+
+    String spacedString(String str) {
+
+        int lineCnt = 0;
+        int fromIndex = -1;
+        while ((fromIndex = str.indexOf("\"", fromIndex + 1)) >= 0) {
+            lineCnt++;
+        }
+        System.out.println(lineCnt);
+        if (lineCnt == 2) {
+            String[] array = str.split("\"");
+            System.out.println("1:" + array[1]);
+            return array[1];
+        } else {
+            String[] array = str.split(" ");
+            System.out.println("2:" + array[1]);
+            return array[1];
+
+        }
     }
 
 

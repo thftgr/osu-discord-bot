@@ -1,4 +1,4 @@
-package com.thftgr;
+package com.thftgr.bot;
 
 import com.google.gson.JsonArray;
 import net.lingala.zip4j.ZipFile;
@@ -37,7 +37,7 @@ public class fileIO {
 
     }
 
-    void textLineRemover(String fileName, String removeText) throws IOException {
+    void textLineRemover(String fileName, String removeText) throws IOException { //텍스트 파일 읽어서 해당하는 라인 삭제
 
         String msg;
         String tmp = "";

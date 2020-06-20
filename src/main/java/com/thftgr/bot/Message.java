@@ -1,4 +1,4 @@
-package com.thftgr;
+package com.thftgr.bot;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Message {
     void sayMsg(MessageChannel channel, String msg, String Language) {
@@ -48,7 +50,7 @@ public class Message {
         JsonArray map = new osuApiCall().call("get_beatmaps", "&b=" + mapID);
 
         if (map == null) {// 맵이 없는경우
-            eb.setDescription("😢 Beatmap Not Found! Check mapID");
+            eb.setDescription("😢 BeatmapDecoder Not Found! Check mapID");
             channel.sendMessage(eb.build()).queue();
             return;
         }
@@ -118,7 +120,6 @@ public class Message {
         System.out.println("localOszIsNew : " + new fileIO().localOszIsNew(Ja));
 
 
-        eb.setDescription(new MessageBuilder().mapSetInfo(Ja));
         eb.setImage("https://b.ppy.sh/thumb/" + mapSetID + "l.jpg");
         String map_date;
 
@@ -134,18 +135,28 @@ public class Message {
 
         eb.setFooter("❤  " + NonNull(JO, "favourite_count") + "  |  " + approvedStatus(Ja.get(0).getAsJsonObject().get("approved").getAsInt()) + "  |  " + map_date + " UTC +0");
 
-        String messageID = channel.sendMessage(eb.build()).complete().getId();
 
+        // 2028자보다 길면 자르고 아니면 말고
+        String DescriptionBuilder = new MessageBuilder().mapSetInfo(Ja);
+        String messageID = null;
+        List messageIDList = new ArrayList();
+        if(DescriptionBuilder.length() <= 2048) {
+            eb.setDescription(DescriptionBuilder);
+            messageID = channel.sendMessage(eb.build()).complete().getId();
+        }else {
+            eb.setDescription(DescriptionBuilder);
+            messageIDList.add(channel.sendMessage(eb.build()).complete().getId());
 
-        eb.setDescription(new MessageBuilder().mapSetInfoWithPP(Ja));
-        editMessage(channel, messageID, eb);
+            System.out.println();
+        }
 
-
-//                .queue(message -> {
-//                    message.addReaction("⏪").queue();
-//                    message.addReaction("⏩").queue();
-//                });
-
+        DescriptionBuilder = new MessageBuilder().mapSetInfoWithPP(Ja);
+        if(DescriptionBuilder.length() <= 2048) {
+            eb.setDescription(DescriptionBuilder);
+            editMessage(channel, messageID, eb);
+        }else {
+            System.out.println();
+        }
 
     }
 
@@ -200,5 +211,24 @@ public class Message {
     void editMessage(MessageChannel channel, String messageID, EmbedBuilder eb) {
         channel.editMessageById(messageID, eb.build()).queue();
     }
+
+
+    String[] embedVeryLongString(String Description) {
+
+
+        String[] s = Description.split("\n");
+        String[] ret = new String[2];
+
+        for (int i = 0; i < s.length; i++) {
+
+            if (ret[0].length() <= 2048) {
+                ret[0] += s[i] + "\n";
+            } else if (ret[1].length() <= 2048) {
+                ret[1] += s[i] + "\n";
+            }
+        }
+        return ret;
+    }
+
 
 }
