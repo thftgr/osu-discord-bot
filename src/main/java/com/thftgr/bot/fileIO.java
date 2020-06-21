@@ -39,55 +39,55 @@ public class fileIO {
 
     }
 
-    void textLineRemover(String fileName, String removeText) throws IOException { //텍스트 파일 읽어서 해당하는 라인 삭제
-
-        String msg;
-        String tmp = "";
-
-        BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
-        while ((msg = br.readLine()) != null) {
-
-            if (!msg.equals(removeText)) {
-                tmp += (msg + "\n");
-            }
-        }
-        br.close();
-
-        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName)));
-        PrintWriter pw = new PrintWriter(bw, true);
-        pw.write(tmp);
-        pw.flush();
-        pw.close();
-    }
-
-    String[] textFileReader(String Filename) {
-        try {
-            BufferedReader in;
-            String[] text;
-
-            int lineCnt = 0;
-
-            File file = new File(Filename);
-
-            in = new BufferedReader(new FileReader(file));
-
-            while ((in.readLine()) != null) {
-                lineCnt++;
-            }
-            text = new String[lineCnt];
-
-            in = new BufferedReader(new FileReader(file));
-            for (int i = 0; i < lineCnt; i++) {
-                text[i] = in.readLine();
-            }
-            return text;
-
-
-        } catch (IOException e) {
-            return null;
-        }
-
-    }
+//    void textLineRemover(String fileName, String removeText) throws IOException { //텍스트 파일 읽어서 해당하는 라인 삭제
+//
+//        String msg;
+//        String tmp = "";
+//
+//        BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
+//        while ((msg = br.readLine()) != null) {
+//
+//            if (!msg.equals(removeText)) {
+//                tmp += (msg + "\n");
+//            }
+//        }
+//        br.close();
+//
+//        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName)));
+//        PrintWriter pw = new PrintWriter(bw, true);
+//        pw.write(tmp);
+//        pw.flush();
+//        pw.close();
+//    }
+//
+//    String[] textFileReader(String Filename) {
+//        try {
+//            BufferedReader in;
+//            String[] text;
+//
+//            int lineCnt = 0;
+//
+//            File file = new File(Filename);
+//
+//            in = new BufferedReader(new FileReader(file));
+//
+//            while ((in.readLine()) != null) {
+//                lineCnt++;
+//            }
+//            text = new String[lineCnt];
+//
+//            in = new BufferedReader(new FileReader(file));
+//            for (int i = 0; i < lineCnt; i++) {
+//                text[i] = in.readLine();
+//            }
+//            return text;
+//
+//
+//        } catch (IOException e) {
+//            return null;
+//        }
+//
+//    }
 
     Boolean unzipOsz(String path, String filename) {
         if (path == null || filename == null) return false;
@@ -113,50 +113,50 @@ public class fileIO {
 
     }
 
-    String getUnzipPath(String mapID) {
-        String oszname;
-        if ((oszname = getOszName(mapID)) == null) return null;
-        return oszname.substring(0, oszname.indexOf(".osz")) + "/";
-    }
+//    String getUnzipPath(String mapID) {
+//        String oszname;
+//        if ((oszname = getOszName(mapID)) == null) return null;
+//        return oszname.substring(0, oszname.indexOf(".osz")) + "/";
+//    }
 
-    String[] getMapFilename(String mapSetID) {
-        String path = Main.settingValue.get("downloadPath").getAsString() + "/" + getUnzipPath(mapSetID);
-        File[] matchingFiles = new File(path).listFiles(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".osu");
-            }
-        });
-
-        String[] list = new String[matchingFiles.length];
-        for (int i = 0; i < matchingFiles.length; i++) {
-            list[i] = matchingFiles[i].getName();
-        }
-        return list;
-    }
-
-    String getmapfilepath(String mapSetID) {
-        return Main.settingValue.get("downloadPath").getAsString() + "/" + getUnzipPath(mapSetID);
-    }
-
-    void removeDir(String dirName) {
-
-        System.gc();
-        File deleteFolder = new File(dirName);
-
-        if (deleteFolder.exists()) {
-            File[] deleteFolderList = deleteFolder.listFiles();
-
-            for (int i = 0; i < deleteFolderList.length; i++) {
-                if (deleteFolderList[i].isFile()) {
-                    deleteFolderList[i].delete();
-                } else {
-                    removeDir(deleteFolderList[i].getPath());
-                }
-                deleteFolderList[i].delete();
-            }
-            deleteFolder.delete();
-        }
-    }
+//    String[] getMapFilename(String mapSetID) {
+//        String path = Main.settingValue.get("downloadPath").getAsString() + "/" + getUnzipPath(mapSetID);
+//        File[] matchingFiles = new File(path).listFiles(new FilenameFilter() {
+//            public boolean accept(File dir, String name) {
+//                return name.endsWith(".osu");
+//            }
+//        });
+//
+//        String[] list = new String[matchingFiles.length];
+//        for (int i = 0; i < matchingFiles.length; i++) {
+//            list[i] = matchingFiles[i].getName();
+//        }
+//        return list;
+//    }
+//
+//    String getmapfilepath(String mapSetID) {
+//        return Main.settingValue.get("downloadPath").getAsString() + "/" + getUnzipPath(mapSetID);
+//    }
+//
+//    void removeDir(String dirName) {
+//
+//        System.gc();
+//        File deleteFolder = new File(dirName);
+//
+//        if (deleteFolder.exists()) {
+//            File[] deleteFolderList = deleteFolder.listFiles();
+//
+//            for (int i = 0; i < deleteFolderList.length; i++) {
+//                if (deleteFolderList[i].isFile()) {
+//                    deleteFolderList[i].delete();
+//                } else {
+//                    removeDir(deleteFolderList[i].getPath());
+//                }
+//                deleteFolderList[i].delete();
+//            }
+//            deleteFolder.delete();
+//        }
+//    }
 
     void settingSave(){
         try {

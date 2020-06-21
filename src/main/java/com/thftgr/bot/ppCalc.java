@@ -45,14 +45,12 @@ public class ppCalc {
 //    }
 
     float ppCalc(JsonObject map, float accuracy, int mods) {
-
         com.thftgr.bot.ppCalcApi ppCalcApi = new ppCalcApi();
 
         ppCalcApi.aimStars = map.get("diff_aim").getAsDouble(); //diff_aim
         ppCalcApi.speedStars = map.get("diff_speed").getAsDouble(); //diff_speed
         ppCalcApi.mods = mods; //mods int
         ppCalcApi.beatmapMaxCombo = map.get("max_combo").getAsInt(); // max_combo
-
         ppCalcApi.scoreMaxCombo = map.get("max_combo").getAsInt();
 
         ppCalcApi.ar = map.get("diff_approach").getAsDouble(); // diff_approach
@@ -73,10 +71,12 @@ public class ppCalc {
 
     JsonObject ppCalcLocal(JsonArray mapSetJsonArray, float acc, int mods) {
         JsonObject mapData = new JsonObject();
+
         for (int i = 0; i < mapSetJsonArray.size(); i++) {
             String version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
             float pp = ppCalc(mapSetJsonArray.get(i).getAsJsonObject(),acc,mods);
             mapData.addProperty(version,String.format("%.2fpp",pp));
+
         }
 
         return mapData;

@@ -39,7 +39,7 @@ public class test {
 
         ppCalcApi.countHitCircles = 101; //count_normal
         ppCalcApi.accuracy = 100f / 100; //acc percent
-
+        System.out.println("ppcalced\n");
         return (float) ppCalcApi.Calculate();
 
 

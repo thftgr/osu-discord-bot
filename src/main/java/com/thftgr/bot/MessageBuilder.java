@@ -128,26 +128,20 @@ public class MessageBuilder {
     String mapSetInfoWithPP() {
         String[] modeList = {"", "", "", "", ""};
 
-        int i = avgPlaytime();
-        String info = "▸PlayTime AVG : " + (i / 60) + "m " + (i - ((i / 60) * 60)) + "s ▸BPM: " + NonNull(mapSetJsonArray.get(0).getAsJsonObject(), "bpm") + "\n";
+        int playtime = avgPlaytime();
+        String info = "▸PlayTime AVG : " + (playtime / 60) + "m " + (playtime - ((playtime / 60) * 60)) + "s ▸BPM: " + NonNull(mapSetJsonArray.get(0).getAsJsonObject(), "bpm") + "\n";
         long nanoTime = System.nanoTime();
+        JsonObject mapData = new ppCalc().ppCalcLocal(mapSetJsonArray, 100f, 0);
 
-        for (int ii = 0; ii < mapSetJsonArray.size(); ii++) {
-            JsonObject J = mapSetJsonArray.get(ii).getAsJsonObject();
+        for (int i = 0; i < mapSetJsonArray.size(); i++) {
+            JsonObject J = mapSetJsonArray.get(i).getAsJsonObject();
             String msg = "★" + String.format("%,.2f", Double.parseDouble(J.get("difficultyrating").getAsString())) + " -  " + J.get("version").getAsString();
             int mod = J.get("mode").getAsInt();
-            if (mod == 3) {
-                msg += " [" + J.get("diff_size").getAsString() + " key]";
-            }
 
-            if (mod == 0) {
 
-                String version = NonNull(J, "version");
-                JsonObject mapData = new ppCalc().ppCalcLocal(mapSetJsonArray, 100f, 0);
+            if (mod == 0) msg += " " + mapData.get(J.get("version").getAsString()).getAsString();
+            if (mod == 3) msg += " [" + J.get("diff_size").getAsString() + " key]";
 
-                msg += " " + mapData.get(version).getAsString();
-
-            }
 
 
             modeList[J.get("mode").getAsInt()] += msg + "\n";

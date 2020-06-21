@@ -48,8 +48,7 @@ public class Message {
         JsonArray map = new osuApiCall().call("get_beatmaps", "&b=" + mapID);
 
         if (map == null) {// 맵이 없는경우
-            eb.setDescription("😢 BeatmapDecoder Not Found! Check mapID");
-            channel.sendMessage(eb.build()).queue();
+            channel.sendMessage(eb.setDescription("😢 BeatmapDecoder Not Found! Check mapID").build()).queue();
             return;
         }
 
@@ -58,14 +57,10 @@ public class Message {
 
         String sb = NonNull(mapInfo, "artist") + " - " + NonNull(mapInfo, "title");
 
-        if (NonNull(mapInfo, "creator") != null) {
-            sb += " \nby " + (NonNull(mapInfo, "creator"));
-        }
+        if (!mapInfo.get("creator").isJsonNull()) sb += " \nby " + mapInfo.get("creator").getAsString();
+
         eb.setAuthor(sb, "https://osu.ppy.sh/s/" + mapSetID, null);
 
-        //if(new fileIO().localOszIsNew())
-
-        //파일이 로컬에 있는지 비교
 
         MessageBuilder mb = new MessageBuilder();
         mb.mapJsonObject = mapInfo;
@@ -73,22 +68,19 @@ public class Message {
         eb.setImage("https://b.ppy.sh/thumb/" + mapSetID + "l.jpg");
 
         String map_date;
-        if (!map.get(0).getAsJsonObject().get("approved_date").isJsonNull()) {
-            map_date = map.get(0).getAsJsonObject().get("approved_date").getAsString();
+        if (!mapInfo.get("approved_date").isJsonNull()) {
+            map_date = mapInfo.get("approved_date").getAsString();
 
-        } else if (!map.get(0).getAsJsonObject().get("last_update").isJsonNull()) {
-            map_date = map.get(0).getAsJsonObject().get("last_update").getAsString();
+        } else if (!mapInfo.get("last_update").isJsonNull()) {
+            map_date = mapInfo.get("last_update").getAsString();
 
         } else {
-            map_date = map.get(0).getAsJsonObject().get("submit_date").getAsString();
+            map_date = mapInfo.get("submit_date").getAsString();
         }
 
         eb.setFooter("❤  " + NonNull(mapInfo, "favourite_count") + "  |  " + approvedStatus(Integer.parseInt(NonNull(mapInfo, "approved"))) + "  |  " + map_date + " UTC +0");
         String messageID = channel.sendMessage(eb.build()).complete().getId();
-        if (map.get(0).getAsJsonObject().get("mode").getAsInt() == 0) {
-            eb.setDescription(mb.mapInfoWithPP());
-            editMessage(channel, messageID, eb);
-        }
+        if (mapInfo.get("mode").getAsInt() == 0)             editMessage(channel, messageID, eb.setDescription(mb.mapInfoWithPP()));
 
 
     }
