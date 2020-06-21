@@ -11,6 +11,7 @@ import java.net.URL;
 
 public class osuApiCall {
     JsonArray call(String url, String Parameters) {
+        //System.out.println("api called");
         String Parm = "k=" + Main.settingValue.get("token.osu!").getAsString() + Parameters;
         Parm += "&a=0";
         HttpURLConnection httpURLConnection = connectServer("https://osu.ppy.sh/api/" + url + "?" + Parm);

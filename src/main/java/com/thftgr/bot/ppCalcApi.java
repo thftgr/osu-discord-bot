@@ -17,7 +17,7 @@ public class ppCalcApi {
     public double accuracy;
 
 
-    public double Calculate() {
+    public double osuPPCalculate() {
 
         totalHits = totalHits();
 

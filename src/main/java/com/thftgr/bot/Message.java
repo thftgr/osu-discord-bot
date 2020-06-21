@@ -88,17 +88,17 @@ public class Message {
     void beatmapSetPrint(MessageChannel channel, String mapSetID, String _title) {
 
         EmbedBuilder eb = new EmbedBuilder().setColor(new Color(255, 255, 255));
-        JsonArray mapSet = new osuApiCall().call("get_beatmaps", "&s=" + mapSetID);
+        JsonArray mapSetJsonArray = new osuApiCall().call("get_beatmaps", "&s=" + mapSetID);
 
 
-        if (mapSet == null) { //맵 조회
+        if (mapSetJsonArray == null) { //맵 조회
             eb.setDescription("😢 BeatmapSet Not Found! Check mapSetID");
             channel.sendMessage(eb.build()).queue();
             return;
         }
 
-        JsonArray Ja = new Util().sortJsonarray(new osuApiCall().call("get_beatmaps", "&s=" + mapSetID));
-        JsonObject JO = Ja.get(0).getAsJsonObject();
+        mapSetJsonArray = new Util().sortJsonarray(mapSetJsonArray);
+        JsonObject JO = mapSetJsonArray.get(0).getAsJsonObject();
 
         String sb = _title + NonNull(JO, "artist") + " - " + NonNull(JO, "title");
 
@@ -108,27 +108,24 @@ public class Message {
         eb.setAuthor(sb, "https://osu.ppy.sh/s/" + mapSetID, null);
 
 
-        System.out.println("localOszIsNew : " + new fileIO().localOszIsNew(Ja));
-
-
         eb.setImage("https://b.ppy.sh/thumb/" + mapSetID + "l.jpg");
         String map_date;
 
-        if (!Ja.get(0).getAsJsonObject().get("approved_date").isJsonNull()) {
-            map_date = Ja.get(0).getAsJsonObject().get("approved_date").getAsString();
+        if (!mapSetJsonArray.get(0).getAsJsonObject().get("approved_date").isJsonNull()) {
+            map_date = mapSetJsonArray.get(0).getAsJsonObject().get("approved_date").getAsString();
 
-        } else if (!Ja.get(0).getAsJsonObject().get("last_update").isJsonNull()) {
-            map_date = Ja.get(0).getAsJsonObject().get("last_update").getAsString();
+        } else if (!mapSetJsonArray.get(0).getAsJsonObject().get("last_update").isJsonNull()) {
+            map_date = mapSetJsonArray.get(0).getAsJsonObject().get("last_update").getAsString();
 
         } else {
-            map_date = Ja.get(0).getAsJsonObject().get("submit_date").getAsString();
+            map_date = mapSetJsonArray.get(0).getAsJsonObject().get("submit_date").getAsString();
         }
 
-        eb.setFooter("❤  " + NonNull(JO, "favourite_count") + "  |  " + approvedStatus(Ja.get(0).getAsJsonObject().get("approved").getAsInt()) + "  |  " + map_date + " UTC +0");
+        eb.setFooter("❤  " + NonNull(JO, "favourite_count") + "  |  " + approvedStatus(mapSetJsonArray.get(0).getAsJsonObject().get("approved").getAsInt()) + "  |  " + map_date + " UTC +0");
 
 
         MessageBuilder mb = new MessageBuilder();
-        mb.mapSetJsonArray = Ja;
+        mb.mapSetJsonArray = mapSetJsonArray;
 
         eb.setDescription(mb.mapSetInfo());
         String messageID = channel.sendMessage(eb.build()).complete().getId();

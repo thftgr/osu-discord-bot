@@ -17,6 +17,7 @@ public class EventListener extends ListenerAdapter {
     public static JDA mainJda;
 
 
+
     @Override // 특정 누군가의 온라인 status 이벤트
     public void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent event) {
         OnlineStatus os = event.getGuild().getMember(event.getUser()).getOnlineStatus();
@@ -70,7 +71,6 @@ public class EventListener extends ListenerAdapter {
         }
 
         if (!msg.startsWith(msg_)) return;
-
         String cmd = msg.substring(1);
         String[] array = cmd.split(" ");
 

@@ -10,34 +10,34 @@ import java.text.SimpleDateFormat;
 
 public class fileIO {
 
-    Boolean localOszIsNew(JsonArray mapInfo) {
-        //업데이트 리스트 줄줄이 비교후 하나라도 업데이트되었으면 false 반환
-        MessageBuilder mb =new MessageBuilder();
-        mb.mapJsonObject = mapInfo.get(0).getAsJsonObject();
-        File fileTmp = new File(Main.settingValue.get("downloadPath").getAsString() + mb.oszFileNameBuilder());
-        if (fileTmp.exists()) {
-            try {
-
-                for (int i = 0; i < mapInfo.size(); i++) {
-
-                    String last_update = new MessageBuilder().NonNull(mapInfo.get(0).getAsJsonObject(), "last_update");
-                    long epoch = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(last_update).getTime();
-                    if (((epoch+32400) / 1000) < (fileTmp.lastModified() / 1000)) {
-                        return true;
-                    }
-                }
-
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-
-            }
-            return false;
-        } else {
-            return false;
-        }
-
-    }
+//    Boolean localOszIsNew(JsonArray mapInfo) {
+//        //업데이트 리스트 줄줄이 비교후 하나라도 업데이트되었으면 false 반환
+//        MessageBuilder mb =new MessageBuilder();
+//        mb.mapJsonObject = mapInfo.get(0).getAsJsonObject();
+//        File fileTmp = new File(Main.settingValue.get("downloadPath").getAsString() + mb.oszFileNameBuilder());
+//        if (fileTmp.exists()) {
+//            try {
+//
+//                for (int i = 0; i < mapInfo.size(); i++) {
+//
+//                    String last_update = new MessageBuilder().NonNull(mapInfo.get(0).getAsJsonObject(), "last_update");
+//                    long epoch = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(last_update).getTime();
+//                    if (((epoch+32400) / 1000) < (fileTmp.lastModified() / 1000)) {
+//                        return true;
+//                    }
+//                }
+//
+//
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//
+//            }
+//            return false;
+//        } else {
+//            return false;
+//        }
+//
+//    }
 
 //    void textLineRemover(String fileName, String removeText) throws IOException { //텍스트 파일 읽어서 해당하는 라인 삭제
 //

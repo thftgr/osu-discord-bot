@@ -85,7 +85,7 @@ public class MessageBuilder {
         msg += "▸CS: " + NonNull(mapJsonObject, "diff_size") + " \n";
 
         if (mod == 0) {
-            String mapSetId = NonNull(mapJsonObject, "beatmapset_id");
+
             String version = NonNull(mapJsonObject, "version");
             JsonObject mapData = new ppCalc().ppCalcLocal(mapSetJsonArray, 100f, 0);
             msg += "▸PP: " + mapData.get(version).getAsJsonObject().get("pp").getAsString();
