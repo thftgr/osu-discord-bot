@@ -6,8 +6,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Message {
     void sayMsg(MessageChannel channel, String msg, String Language) {
@@ -69,8 +67,9 @@ public class Message {
 
         //파일이 로컬에 있는지 비교
 
-
-        eb.setDescription(new MessageBuilder().mapInfo(mapInfo));
+        MessageBuilder mb = new MessageBuilder();
+        mb.mapJsonObject = mapInfo;
+        eb.setDescription(mb.mapInfo());
         eb.setImage("https://b.ppy.sh/thumb/" + mapSetID + "l.jpg");
 
         String map_date;
@@ -87,7 +86,7 @@ public class Message {
         eb.setFooter("❤  " + NonNull(mapInfo, "favourite_count") + "  |  " + approvedStatus(Integer.parseInt(NonNull(mapInfo, "approved"))) + "  |  " + map_date + " UTC +0");
         String messageID = channel.sendMessage(eb.build()).complete().getId();
         if (map.get(0).getAsJsonObject().get("mode").getAsInt() == 0) {
-            eb.setDescription(new MessageBuilder().mapInfoWithPP(mapInfo));
+            eb.setDescription(mb.mapInfoWithPP());
             editMessage(channel, messageID, eb);
         }
 
@@ -136,27 +135,15 @@ public class Message {
         eb.setFooter("❤  " + NonNull(JO, "favourite_count") + "  |  " + approvedStatus(Ja.get(0).getAsJsonObject().get("approved").getAsInt()) + "  |  " + map_date + " UTC +0");
 
 
-        // 2028자보다 길면 자르고 아니면 말고
-        String DescriptionBuilder = new MessageBuilder().mapSetInfo(Ja);
-        String messageID = null;
-        List messageIDList = new ArrayList();
-        if(DescriptionBuilder.length() <= 2048) {
-            eb.setDescription(DescriptionBuilder);
-            messageID = channel.sendMessage(eb.build()).complete().getId();
-        }else {
-            eb.setDescription(DescriptionBuilder);
-            messageIDList.add(channel.sendMessage(eb.build()).complete().getId());
+        MessageBuilder mb = new MessageBuilder();
+        mb.mapSetJsonArray = Ja;
 
-            System.out.println();
-        }
+        eb.setDescription(mb.mapSetInfo());
+        String messageID = channel.sendMessage(eb.build()).complete().getId();
 
-        DescriptionBuilder = new MessageBuilder().mapSetInfoWithPP(Ja);
-        if(DescriptionBuilder.length() <= 2048) {
-            eb.setDescription(DescriptionBuilder);
-            editMessage(channel, messageID, eb);
-        }else {
-            System.out.println();
-        }
+        eb.setDescription(mb.mapSetInfoWithPP());
+        editMessage(channel, messageID, eb);
+
 
     }
 

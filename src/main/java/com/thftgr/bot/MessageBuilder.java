@@ -4,14 +4,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class MessageBuilder {
+    public JsonArray mapSetJsonArray;
+    public JsonObject mapJsonObject;
+    public JsonObject pp = new JsonObject();
+
+
     String NonNull(JsonObject JO, String value) {
         try {
             return JO.get(value).getAsString();
         } catch (UnsupportedOperationException e) {
             return "-";
         }
-
-
     }
 
     String downloadList(String ppy, String bloodcat, String thftgr) {
@@ -28,7 +31,7 @@ public class MessageBuilder {
         return s;
     }
 
-    String mapInfo(JsonObject mapJsonObject) {
+    String mapInfo() {
         //여기에 상세정보를 제작
         int i = Integer.parseInt(NonNull(mapJsonObject, "total_length"));
 
@@ -55,7 +58,8 @@ public class MessageBuilder {
         return msg;
     }
 
-    String mapInfoWithPP(JsonObject mapJsonObject) {
+    String mapInfoWithPP() {
+
         //여기에 상세정보를 제작
         int i = Integer.parseInt(NonNull(mapJsonObject, "total_length"));
 
@@ -83,19 +87,16 @@ public class MessageBuilder {
         if (mod == 0) {
             String mapSetId = NonNull(mapJsonObject, "beatmapset_id");
             String version = NonNull(mapJsonObject, "version");
-            JsonObject mapData = new PpCalc().ppCalcLocal(mapSetId, 100f, 0);
+            JsonObject mapData = new ppCalc().ppCalcLocal(mapSetJsonArray, 100f, 0);
             msg += "▸PP: " + mapData.get(version).getAsJsonObject().get("pp").getAsString();
         }
-
-
-
         return msg;
     }
 
-    String mapSetInfo(JsonArray mapSetJsonArray) {
+    String mapSetInfo() {
         String[] modeList = {"", "", "", "", ""};
 
-        int i = avgPlaytime(mapSetJsonArray);
+        int i = avgPlaytime();
         String info = "▸PlayTime AVG: " + (i / 60) + "m " + (i - ((i / 60) * 60)) + "s ▸BPM: " + NonNull(mapSetJsonArray.get(0).getAsJsonObject(), "bpm") + "\n";
 
         for (int ii = 0; ii < mapSetJsonArray.size(); ii++) {
@@ -124,10 +125,10 @@ public class MessageBuilder {
         return info + "\n" + modeList[4];
     }
 
-    String mapSetInfoWithPP(JsonArray mapSetJsonArray) {
+    String mapSetInfoWithPP() {
         String[] modeList = {"", "", "", "", ""};
 
-        int i = avgPlaytime(mapSetJsonArray);
+        int i = avgPlaytime();
         String info = "▸PlayTime AVG : " + (i / 60) + "m " + (i - ((i / 60) * 60)) + "s ▸BPM: " + NonNull(mapSetJsonArray.get(0).getAsJsonObject(), "bpm") + "\n";
         long nanoTime = System.nanoTime();
 
@@ -140,11 +141,11 @@ public class MessageBuilder {
             }
 
             if (mod == 0) {
-                String mapSetId = NonNull(J, "beatmapset_id");
-                String version = NonNull(J, "version");
-                JsonObject mapData = new PpCalc().ppCalcLocal(mapSetId, 100f, 0);
 
-                msg += " " + mapData.get(version).getAsJsonObject().get("pp").getAsString();
+                String version = NonNull(J, "version");
+                JsonObject mapData = new ppCalc().ppCalcLocal(mapSetJsonArray, 100f, 0);
+
+                msg += " " + mapData.get(version).getAsString();
 
             }
 
@@ -239,11 +240,11 @@ public class MessageBuilder {
 
     }
 
-    String oszFileNameBuilder(JsonObject mapJsonObject) {
+    String oszFileNameBuilder() {
         return NonNull(mapJsonObject, "beatmapset_id") + " " + NonNull(mapJsonObject, "artist") + " - " + NonNull(mapJsonObject, "title") + ".osz";
     }
 
-    int avgPlaytime(JsonArray mapSetJsonArray) {
+    int avgPlaytime() {
         int avgPlayTime = 0;
         for (int i = 0; i < mapSetJsonArray.size(); i++) {
             //total_length

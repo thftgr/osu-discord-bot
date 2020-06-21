@@ -12,7 +12,9 @@ public class fileIO {
 
     Boolean localOszIsNew(JsonArray mapInfo) {
         //업데이트 리스트 줄줄이 비교후 하나라도 업데이트되었으면 false 반환
-        File fileTmp = new File(Main.settingValue.get("downloadPath").getAsString() + new MessageBuilder().oszFileNameBuilder(mapInfo.get(0).getAsJsonObject()));
+        MessageBuilder mb =new MessageBuilder();
+        mb.mapJsonObject = mapInfo.get(0).getAsJsonObject();
+        File fileTmp = new File(Main.settingValue.get("downloadPath").getAsString() + mb.oszFileNameBuilder());
         if (fileTmp.exists()) {
             try {
 

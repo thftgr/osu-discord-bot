@@ -32,9 +32,6 @@ public class Main{
             //jb.setActivity(Activity.playing("0-0"));
             jb.build();
 
-
-
-
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -147,8 +147,6 @@ public class EventListener extends ListenerAdapter {
                     new Message().sayMsg(e.getChannel(), "이 기능은 봇 주인만 가능합니다. thftgr#3102 에게 문의하세요.", null);
                     break;
                 }
-
-
                 if (array.length > 2) {
                     if (array.length > 3) {
                         for (int i = 3; i < array.length; i++) {
