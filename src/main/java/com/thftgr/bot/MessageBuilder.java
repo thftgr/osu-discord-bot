@@ -84,11 +84,9 @@ public class MessageBuilder {
 
         msg += "▸CS: " + NonNull(mapJsonObject, "diff_size") + " \n";
 
-        if (mod == 0) {
-
-            String version = NonNull(mapJsonObject, "version");
+        if (mod == 0 | mod == 3) {
             JsonObject mapData = new ppCalc().ppCalcLocal(mapSetJsonArray, 100f, 0);
-            msg += "▸PP: " + mapData.get(version).getAsJsonObject().get("pp").getAsString();
+            msg += "▸PP: " + mapData.get(mapJsonObject.get("version").getAsString()).getAsString();
         }
         return msg;
     }
@@ -140,7 +138,7 @@ public class MessageBuilder {
 
 
             if (mod == 0) msg += " " + mapData.get(J.get("version").getAsString()).getAsString();
-            if (mod == 3) msg += " [" + J.get("diff_size").getAsString() + " key]";
+            if (mod == 3) msg += " [" + J.get("diff_size").getAsString() + " key] " + mapData.get(J.get("version").getAsString()).getAsString();
 
 
 
@@ -149,7 +147,7 @@ public class MessageBuilder {
         System.out.println(((System.nanoTime() - nanoTime) / 1000000) + "ms");
 
         if (!(modeList[0].equals(""))) {
-            modeList[4] += "[osu!]\n" + modeList[0] + "CT = " + ((System.nanoTime() - nanoTime) / 1000000) + "ms\n\n";
+            modeList[4] += "[osu!]\n" + modeList[0] + "\n";
         }
         if (!(modeList[1].equals(""))) {
             modeList[4] += "[osu!taiko]\n" + modeList[1] + "\n";
@@ -160,7 +158,7 @@ public class MessageBuilder {
         if (!(modeList[3].equals(""))) {
             modeList[4] += "[osu!mania]\n" + modeList[3] + "\n";
         }
-        return info + "\n" + modeList[4];
+        return info + "\n" + modeList[4] +"CT = " + ((System.nanoTime() - nanoTime) / 1000000) + "ms" ;
     }
 
     String userInfo(JsonArray user, JsonArray BestMap, String mode) {
