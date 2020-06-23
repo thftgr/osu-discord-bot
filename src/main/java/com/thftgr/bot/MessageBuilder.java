@@ -84,7 +84,8 @@ public class MessageBuilder {
 
         msg += "▸CS: " + NonNull(mapJsonObject, "diff_size") + " \n";
 
-        if (mod == 0 | mod == 3) {
+        if (mod != 1) {
+
             JsonObject mapData = new ppCalc().ppCalcLocal(mapSetJsonArray, 100f, 0);
             msg += "▸PP: " + mapData.get(mapJsonObject.get("version").getAsString()).getAsString();
         }
@@ -138,6 +139,7 @@ public class MessageBuilder {
 
 
             if (mod == 0) msg += " " + mapData.get(J.get("version").getAsString()).getAsString();
+            if (mod == 2) msg += " " + mapData.get(J.get("version").getAsString()).getAsString();
             if (mod == 3) msg += " [" + J.get("diff_size").getAsString() + " key] " + mapData.get(J.get("version").getAsString()).getAsString();
 
 

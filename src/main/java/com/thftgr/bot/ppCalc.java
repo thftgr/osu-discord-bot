@@ -16,6 +16,7 @@ public class ppCalc {
     JsonObject ppCalcLocal(JsonArray mapSetJsonArray, float acc, int mods) {
         JsonObject mapData = new JsonObject();
 
+
         for (int i = 0; i < mapSetJsonArray.size(); i++) {
             String version = "";
             float pp = 0;
@@ -30,6 +31,9 @@ public class ppCalc {
                 case 1:
                     break;
                 case 2:
+                    version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
+                    pp = catchPpCalc(mapSetJsonArray.get(i).getAsJsonObject());
+                    mapData.addProperty(version, String.format("%.2fpp", pp));
                     break;
                 case 3:
                     version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
@@ -86,6 +90,22 @@ public class ppCalc {
 
         return (float) ppCalc.maniaPPCalculate();
 
+    }
+
+    float catchPpCalc(JsonObject map){
+        OsuPPCalc ppCalc = new OsuPPCalc();
+
+        ppCalc.mods = 0;
+
+        ppCalc.difficultyrating = map.get("difficultyrating").getAsDouble();
+        ppCalc.beatmapMaxCombo = map.get("max_combo").getAsInt();
+        ppCalc.misses =0;
+        ppCalc.scoreMaxCombo = map.get("max_combo").getAsInt();
+        ppCalc.ar = map.get("diff_approach").getAsDouble();
+        ppCalc.accuracy = 1;
+
+
+        return (float) ppCalc.catchPPCalculate();
     }
 
 

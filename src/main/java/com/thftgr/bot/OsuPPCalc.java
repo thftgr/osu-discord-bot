@@ -16,11 +16,9 @@ public class OsuPPCalc {
     public int totalHits;
     //catch
     public double difficultyrating;     //stars
-    public int tinyTicksHit;            //SmallTickHit
-    public int ticksHit;                //LargeTickHit
-    public int fruitsHit;               //Perfect
     public int misses;                  //Miss
-    public int tinyTicksMissed;         //SmallTickMiss
+
+
     //mania
     public double scaledScore;  // 10000000
     public int countPerfect;    // (HitResult.Perfect);
@@ -39,52 +37,13 @@ public class OsuPPCalc {
         return new Catch().Calculate();
     }
 
-    public double maniaPPCalculate(){
+    public double maniaPPCalculate() {
         return new Mania().Calculate();
     }
 
-//    public static class mod {
-//        public int None = 0;
-//        public int NoFail = 1;
-//        public int Easy = 2;
-//        public int TouchDevice = 4;
-//        public int Hidden = 8;
-//        public int HardRock = 16;
-//        public int SuddenDeath = 32;
-//        public int DoubleTime = 64;
-//        public int Relax = 128;
-//        public int HalfTime = 256;
-//        public int Nightcore = 512; // Only set along with DoubleTime. i.e: NC only gives 576
-//        public int Flashlight = 1024;
-//        public int Autoplay = 2048;
-//        public int SpunOut = 4096;
-//        public int Relax2 = 8192;    // Autopilot
-//        public int Perfect = 16384; // Only set along with SuddenDeath. i.e: PF only gives 16416
-//        public int Key4 = 32768;
-//        public int Key5 = 65536;
-//        public int Key6 = 131072;
-//        public int Key7 = 262144;
-//        public int Key8 = 524288;
-//        public int FadeIn = 1048576;
-//        public int Random = 2097152;
-//        public int Cinema = 4194304;
-//        public int Target = 8388608;
-//        public int Key9 = 16777216;
-//        public int KeyCoop = 33554432;
-//        public int Key1 = 67108864;
-//        public int Key3 = 134217728;
-//        public int Key2 = 268435456;
-//        public int ScoreV2 = 536870912;
-//        public int Mirror = 1073741824;
-//        public int KeyMod = Key1 | Key2 | Key3 | Key4 | Key5 | Key6 | Key7 | Key8 | Key9 | KeyCoop;
-//        public int FreeModAllowed = NoFail | Easy | Hidden | HardRock | SuddenDeath | Flashlight | FadeIn | Relax | Relax2 | SpunOut | KeyMod;
-//        public int ScoreIncreaseMods = Hidden | HardRock | DoubleTime | Flashlight | FadeIn;
-//
-//
-//    }
 
     class STD {
-        double Calculate(){
+        double Calculate() {
             totalHits = new STD().totalHits();
 
             double multiplier = 1.12; // This is being adjusted to keep the final pp value scaled around what it used to be when changing things
@@ -223,48 +182,33 @@ public class OsuPPCalc {
     }
 
     class Catch {
+
+
         double Calculate() {
 
-
-            // We are heavily relying on aim in catch the beat
             double value = Math.pow(5.0 * Math.max(1.0, difficultyrating / 0.0049) - 4.0, 2.0) / 100000.0;
 
-            // Longer maps are worth more. "Longer" means how many hits there are which can contribute to combo
-            int numTotalHits = totalComboHits();
+            double lengthBonus = 0.95 + 0.3 * Math.min(1.0, beatmapMaxCombo / 2500.0) + (beatmapMaxCombo > 2500 ? Math.log10(beatmapMaxCombo / 2500.0) * 0.475 : 0.0);
 
-            // Longer maps are worth more
-            double lengthBonus =
-                    0.95 + 0.3 * Math.min(1.0, numTotalHits / 2500.0) +
-                            (numTotalHits > 2500 ? Math.log10(numTotalHits / 2500.0) * 0.475 : 0.0);
-
-            // Longer maps are worth more
-            value *= lengthBonus;
-
-            // Penalize misses exponentially. This mainly fixes tag4 maps and the likes until a per-hitobject solution is available
-            value *= Math.pow(0.97, misses);
+            value *= lengthBonus * Math.pow(0.97, misses);
 
             // Combo scaling
             if (beatmapMaxCombo > 0)
                 value *= Math.min(Math.pow(scoreMaxCombo, 0.8) / Math.pow(beatmapMaxCombo, 0.8), 1.0);
 
-            double approachRate = ar;
+
             double approachRateFactor = 1.0;
-            if (approachRate > 9.0)
-                approachRateFactor += 0.1 * (approachRate - 9.0); // 10% for each AR above 9
-            if (approachRate > 10.0)
-                approachRateFactor += 0.1 * (approachRate - 10.0); // Additional 10% at AR 11, 30% total
-            else if (approachRate < 8.0)
-                approachRateFactor += 0.025 * (8.0 - approachRate); // 2.5% for each AR below 8
+            if (ar > 9.0) approachRateFactor += 0.1 * (ar - 9.0); // 10% for each AR above 9
+            if (ar > 10.0) approachRateFactor += 0.1 * (ar - 10.0); // Additional 10% at AR 11, 30% total
+            else if (ar < 8.0) approachRateFactor += 0.025 * (8.0 - ar); // 2.5% for each AR below 8
 
             value *= approachRateFactor;
 
             if ((mods & 8) != 0) {
                 value *= 1.05 + 0.075 * (10.0 - Math.min(10.0, ar)); // 7.5% for each AR below 10
                 // Hiddens gives almost nothing on max approach rate, and more the lower it is
-                if (approachRate <= 10.0)
-                    value *= 1.05 + 0.075 * (10.0 - approachRate); // 7.5% for each AR below 10
-                else if (approachRate > 10.0)
-                    value *= 1.01 + 0.04 * (11.0 - Math.min(11.0, approachRate)); // 5% at AR 10, 1% at AR 11
+                if (ar <= 10.0) value *= 1.05 + 0.075 * (10.0 - ar); // 7.5% for each AR below 10
+                else if (ar > 10.0) value *= 1.01 + 0.04 * (11.0 - Math.min(11.0, ar)); // 5% at AR 10, 1% at AR 11
             }
 
             if ((mods & 1024) != 0)
@@ -272,7 +216,7 @@ public class OsuPPCalc {
                 value *= 1.35 * lengthBonus;
 
             // Scale the aim value with accuracy _slightly_
-            value *= Math.pow(accuracy(), 5.5);
+            value *= Math.pow(accuracy, 5.5);
 
             // Custom multipliers for NoFail. SpunOut is not applicable.
             if ((mods & 1) != 0)
@@ -281,26 +225,6 @@ public class OsuPPCalc {
             return value;
         }
 
-
-        double accuracy() {
-            return totalHits() == 0 ? 0 : Clamp((double) totalSuccessfulHits() / totalHits(), 0, 1);
-        }
-
-        int totalHits() {
-            return tinyTicksHit + ticksHit + fruitsHit + misses + tinyTicksMissed;
-        }
-
-        int totalSuccessfulHits() {
-            return tinyTicksHit + ticksHit + fruitsHit;
-        }
-
-        int totalComboHits() {
-            return misses + ticksHit + fruitsHit;
-        }
-
-        double Clamp(double value, double min, double max) {
-            return Math.max(max, Math.min(min, value));
-        }
 
     }
 
