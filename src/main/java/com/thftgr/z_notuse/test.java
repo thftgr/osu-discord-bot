@@ -9,25 +9,16 @@ public class test {
 
     public static void main(String[] args) {
         //new ppCalc().parseMods("hdhrdt");
+        System.out.println(DifficultyRange(3));
+    }
+    static double DifficultyRange(double difficulty)
+    {
+        if (difficulty > 5)
+            return 35 + (20 - 35) * (difficulty - 5) / 5;
+        if (difficulty < 5)
+            return 35 - (35 - 50) * (5 - difficulty) / 5;
 
-        OsuPPCalc ppCalc = new OsuPPCalc();
-
-        ppCalc.mods = 0;
-        ppCalc.scaledScore = 1000000;
-        ppCalc.difficultyrating = 2.17828;
-
-
-        ppCalc.countPerfect = 596;    // (HitResult.Perfect);
-        ppCalc.countGreat = 0;      // (HitResult.Great);
-        ppCalc.countGood = 0;       // (HitResult.Good);
-        ppCalc.countOk = 0;         // (HitResult.Ok);
-        ppCalc.countMeh = 0;        // (HitResult.Meh);
-        ppCalc.countMiss = 0;       // (HitResult.Miss);
-
-
-
-
-        System.out.println(ppCalc.maniaPPCalculate());
+        return 35;
     }
 
 

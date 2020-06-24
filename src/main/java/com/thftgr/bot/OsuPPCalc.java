@@ -1,5 +1,7 @@
 package com.thftgr.bot;
 
+import java.io.Console;
+
 public class OsuPPCalc {
     //all
     public int mods;
@@ -27,6 +29,7 @@ public class OsuPPCalc {
     public int countOk;         // (HitResult.Ok);
     public int countMeh;        // (HitResult.Meh);
     public int countMiss;       // (HitResult.Miss);
+
 
     public double osuPPCalculate() {
         return new STD().Calculate();
@@ -232,7 +235,6 @@ public class OsuPPCalc {
         double Calculate() {
             totalHits = new Mania().totalHits();
 
-            int scoreIncreaseMods = 8 | 16 | 64 | 1024 | 1048576;
 
             double scoreMultiplier = 1.0;
             //for 문과 동일 .length()로 길이 보고 출력하는것으로 구현 가능
@@ -289,13 +291,78 @@ public class OsuPPCalc {
                     * Math.pow(Math.max(0.0, scaledScore - 960000) / 40000, 1.1);
 
             // Bonus for many hitcircles - it's harder to keep good accuracy up for longer
-            // accuracyValue *= Math.Min(1.15, Math.Pow(totalHits / 1500.0, 0.3));
+            // accuracyValue *= Math.min(1.15, Math.pow(totalHits / 1500.0, 0.3));
 
             return accuracyValue;
         }
 
         int totalHits() {
             return countPerfect + countOk + countGreat + countGood + countMeh + countMiss;
+        }
+    }
+
+    class Taiko {
+        double Calculate() {
+            // Custom multipliers for NoFail and SpunOut.
+            double multiplier = 1.1; // This is being adjusted to keep the final pp value scaled around what it used to be when changing things
+
+            if ((mods & 1) != 0) multiplier *= 0.90;
+
+            if ((mods & 8) != 0) multiplier *= 1.10;
+
+            double strainValue = computeStrainValue();
+            double accuracyValue = computeAccuracyValue();
+            double totalValue =
+                    Math.pow(Math.pow(strainValue, 1.1) + Math.pow(accuracyValue, 1.1), 1.0 / 1.1) * multiplier;
+
+
+            return totalValue;
+        }
+
+        double computeStrainValue() {
+            double strainValue = Math.pow(5.0 * Math.max(1.0, difficultyrating / 0.0075) - 4.0, 2.0) / 100000.0;
+
+            // Longer maps are worth more
+            double lengthBonus = 1 + 0.1 * Math.min(1.0, totalHits / 1500.0);
+            strainValue *= lengthBonus;
+
+            // Penalize misses exponentially. This mainly fixes tag4 maps and the likes until a per-hitobject solution is available
+            strainValue *= Math.pow(0.985, countMiss);
+
+            // Combo scaling
+            if (beatmapMaxCombo > 0)
+                strainValue *= Math.min(Math.pow(scoreMaxCombo, 0.5) / Math.pow(beatmapMaxCombo, 0.5), 1.0);
+
+            if ((mods & 8) != 0)            strainValue *= 1.025;
+
+            if ((mods & 1024) != 0)
+            // Apply length bonus again if flashlight is on simply because it becomes a lot harder on longer maps.
+            strainValue *= 1.05 * lengthBonus;
+
+            // Scale the speed value with accuracy _slightly_
+            return strainValue * accuracy;
+        }
+
+        private double computeAccuracyValue() {
+            double GreatHitWindow = DifficultyRange(od);
+            if (GreatHitWindow <= 0)
+                return 0;
+
+            // Lots of arbitrary values from testing.
+            // Considering to use derivation from perfect accuracy in a probabilistic manner - assume normal distribution
+            double accValue = Math.pow(150.0 / GreatHitWindow, 1.1) * Math.pow(accuracy, 15) * 22.0;
+
+            // Bonus for many hitcircles - it's harder to keep good accuracy up for longer
+            return accValue * Math.min(1.15, Math.pow(totalHits / 1500.0, 0.3));
+        }
+
+        double DifficultyRange(double difficulty) {
+            if (difficulty > 5)
+                return 35 + (20 - 35) * (difficulty - 5) / 5;
+            if (difficulty < 5)
+                return 35 - (35 - 50) * (5 - difficulty) / 5;
+
+            return 35;
         }
     }
 
