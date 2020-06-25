@@ -1,7 +1,8 @@
 # osu-discord-bot
 
 Setting.json
-```{
+```
+{
   "token.discord": "your bot token",
   "token.osu!": "your osu api key",
   "token.osu!direct": "osu direct key",
@@ -13,6 +14,5 @@ Setting.json
   "irc.passwd": "passwd",
   "debug": "false",
   "rank_map_notice": []
-}```
-
-
+}
+```
