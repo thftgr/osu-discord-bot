@@ -1,10 +1,18 @@
 # osu-discord-bot
-add setting Folder Master and add option and keys
 
-1. bot.key  <== discord bot token
-2. downloadpath.key  <== download path
-3. osu!.key  <== osu! api key
-4. user.key  <== i don't know this..  but this is osu! direct download user token. maybe only osu! supporter
-5. debug <== this is for debug and release run together. in setting folder debug file. bot will run debugmode 
-6. if using debug copy .key file to .keyt 
+Setting.json
+{
+  "token.discord": "your bot token",
+  "token.osu!": "your osu api key",
+  "token.osu!direct": "osu direct key",
+  "downloadPath": "down/",
+  "irc.url": "irc.ppy.sh",
+  "irc.port": "6667",
+  "irc.username": "username",
+  "irc.channel": "#announce",
+  "irc.passwd": "passwd",
+  "debug": "false",
+  "rank_map_notice": []
+}
+
 
