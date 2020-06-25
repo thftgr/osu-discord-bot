@@ -1,6 +1,6 @@
 # osu-discord-bot
 
-Setting.json
+./setting/Setting.json
 ```
 {
   "token.discord": "your bot token",
