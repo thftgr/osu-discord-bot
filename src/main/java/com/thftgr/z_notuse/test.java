@@ -2,23 +2,29 @@ package com.thftgr.z_notuse;
 
 
 import com.thftgr.bot.OsuPPCalc;
-import com.thftgr.bot.ppCalc;
 
 public class test {
 
 
     public static void main(String[] args) {
         //new ppCalc().parseMods("hdhrdt");
-        System.out.println(DifficultyRange(3));
-    }
-    static double DifficultyRange(double difficulty)
-    {
-        if (difficulty > 5)
-            return 35 + (20 - 35) * (difficulty - 5) / 5;
-        if (difficulty < 5)
-            return 35 - (35 - 50) * (5 - difficulty) / 5;
+        OsuPPCalc ppCalc = new OsuPPCalc();
 
-        return 35;
+        ppCalc.mods = 0;
+
+        ppCalc.difficultyrating =2.28166;
+        ppCalc.totalHits = 194;
+        ppCalc.countMiss = 0;
+        ppCalc.beatmapMaxCombo = 194;
+
+        ppCalc.misses = 0;
+        ppCalc.scoreMaxCombo =194;
+        ppCalc.od =6;
+        ppCalc.accuracy = 1;
+
+        System.out.println(ppCalc.taikoPPCalculate());
+
+
     }
 
 

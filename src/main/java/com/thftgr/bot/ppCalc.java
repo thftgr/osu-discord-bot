@@ -21,7 +21,6 @@ public class ppCalc {
             String version = "";
             float pp = 0;
             switch (mapSetJsonArray.get(i).getAsJsonObject().get("mode").getAsInt()) {
-
                 case 0:
                     version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
                     pp = osuPpCalc(mapSetJsonArray.get(i).getAsJsonObject(), acc, mods);
@@ -29,6 +28,9 @@ public class ppCalc {
 
                 break;
                 case 1:
+                    version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
+                    pp = taikoPpCalc(mapSetJsonArray.get(i).getAsJsonObject());
+                    mapData.addProperty(version, String.format("%.2fpp", pp));
                     break;
                 case 2:
                     version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
@@ -41,8 +43,6 @@ public class ppCalc {
                     mapData.addProperty(version, String.format("%.2fpp", pp));
                 break;
             }
-
-
         }
 
         return mapData;
@@ -106,6 +106,24 @@ public class ppCalc {
 
 
         return (float) ppCalc.catchPPCalculate();
+    }
+    float taikoPpCalc(JsonObject map){
+        OsuPPCalc ppCalc = new OsuPPCalc();
+
+        ppCalc.mods = 0;
+
+        ppCalc.difficultyrating = map.get("difficultyrating").getAsDouble();
+        ppCalc.totalHits = map.get("count_normal").getAsInt();
+        ppCalc.countMiss = 0;
+        ppCalc.beatmapMaxCombo = map.get("count_normal").getAsInt();
+
+        ppCalc.misses = 0;
+        ppCalc.scoreMaxCombo =map.get("count_normal").getAsInt();
+        ppCalc.od =map.get("diff_overall").getAsDouble();
+        ppCalc.accuracy = 1;
+
+
+        return (float) ppCalc.taikoPPCalculate();
     }
 
 

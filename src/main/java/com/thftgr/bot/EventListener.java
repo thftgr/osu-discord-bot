@@ -105,7 +105,7 @@ public class EventListener extends ListenerAdapter {
             case "u":
             case "user":
                 if (array.length < 2) {
-                    new Message().sayMsg(e.getChannel(), "!user [username] [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!mania ]", null);
+                    new Message().sayMsg(e.getChannel(), "!user [username] [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!Mania ]", null);
                 } else if (array.length == 2) {
                     new Thread(new ThreadRun.getUserInfo(e.getChannel(), array[1], "")).start();
                 } else {

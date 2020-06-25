@@ -1,7 +1,5 @@
 package com.thftgr.bot;
 
-import java.io.Console;
-
 public class OsuPPCalc {
     //all
     public int mods;
@@ -21,7 +19,7 @@ public class OsuPPCalc {
     public int misses;                  //Miss
 
 
-    //mania
+    //Mania
     public double scaledScore;  // 10000000
     public int countPerfect;    // (HitResult.Perfect);
     public int countGreat;      // (HitResult.Great);
@@ -42,6 +40,9 @@ public class OsuPPCalc {
 
     public double maniaPPCalculate() {
         return new Mania().Calculate();
+    }
+    public double taikoPPCalculate() {
+        return new Taiko().Calculate();
     }
 
 

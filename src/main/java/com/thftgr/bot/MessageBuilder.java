@@ -84,11 +84,11 @@ public class MessageBuilder {
 
         msg += "▸CS: " + NonNull(mapJsonObject, "diff_size") + " \n";
 
-        if (mod != 1) {
+//        if (mod != 1) {
 
             JsonObject mapData = new ppCalc().ppCalcLocal(mapSetJsonArray, 100f, 0);
             msg += "▸PP: " + mapData.get(mapJsonObject.get("version").getAsString()).getAsString();
-        }
+//        }
         return msg;
     }
 
@@ -113,13 +113,13 @@ public class MessageBuilder {
             modeList[4] += "[osu!]\n" + modeList[0] + "\n";
         }
         if (!(modeList[1].equals(""))) {
-            modeList[4] += "[osu!taiko]\n" + modeList[1] + "\n";
+            modeList[4] += "[osu!Taiko]\n" + modeList[1] + "\n";
         }
         if (!(modeList[2].equals(""))) {
             modeList[4] += "[osu!catch]\n" + modeList[2] + "\n";
         }
         if (!(modeList[3].equals(""))) {
-            modeList[4] += "[osu!mania]\n" + modeList[3] + "\n";
+            modeList[4] += "[osu!Mania]\n" + modeList[3] + "\n";
         }
         return info + "\n" + modeList[4];
     }
@@ -138,8 +138,7 @@ public class MessageBuilder {
             int mod = J.get("mode").getAsInt();
 
 
-            if (mod == 0) msg += " " + mapData.get(J.get("version").getAsString()).getAsString();
-            if (mod == 2) msg += " " + mapData.get(J.get("version").getAsString()).getAsString();
+            if (mod != 3) msg += " " + mapData.get(J.get("version").getAsString()).getAsString();
             if (mod == 3) msg += " [" + J.get("diff_size").getAsString() + " key] " + mapData.get(J.get("version").getAsString()).getAsString();
 
 
@@ -152,13 +151,13 @@ public class MessageBuilder {
             modeList[4] += "[osu!]\n" + modeList[0] + "\n";
         }
         if (!(modeList[1].equals(""))) {
-            modeList[4] += "[osu!taiko]\n" + modeList[1] + "\n";
+            modeList[4] += "[osu!Taiko]\n" + modeList[1] + "\n";
         }
         if (!(modeList[2].equals(""))) {
             modeList[4] += "[osu!catch]\n" + modeList[2] + "\n";
         }
         if (!(modeList[3].equals(""))) {
-            modeList[4] += "[osu!mania]\n" + modeList[3] + "\n";
+            modeList[4] += "[osu!Mania]\n" + modeList[3] + "\n";
         }
         return info + "\n" + modeList[4] +"CT = " + ((System.nanoTime() - nanoTime) / 1000000) + "ms" ;
     }

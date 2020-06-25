@@ -21,7 +21,7 @@ public class Message {
 
     void helpMessage(MessageChannel channel) {
         String hmsg = "Command: {\n" +
-                "   [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!mania ]\n\n" +
+                "   [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!Mania ]\n\n" +
                 "   !help, h\n\n" +
 
                 "   !user, u [username/userID] [mode]\n" +

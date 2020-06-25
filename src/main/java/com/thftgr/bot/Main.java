@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import java.io.FileReader;
 //rel
 //https://discordapp.com/oauth2/authorize?client_id=673103762373476382&scope=bot
-//bebug
+//debug
 //https://discordapp.com/oauth2/authorize?client_id=706888597147615311&scope=bot
 
 
@@ -29,7 +29,6 @@ public class Main{
             jb.setToken(settingValue.get("token.discord").getAsString());
             jb.addEventListeners(new EventListener());
             jb.setMaxReconnectDelay(32);
-            //jb.setActivity(Activity.playing("0-0"));
             jb.build();
 
         } catch (Exception e) {
