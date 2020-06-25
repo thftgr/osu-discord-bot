@@ -2,12 +2,14 @@ package com.thftgr.bot;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.thftgr.osuPerformance.Catch;
+import com.thftgr.osuPerformance.Mania;
+import com.thftgr.osuPerformance.STD;
+import com.thftgr.osuPerformance.Taiko;
 
 public class MessageBuilder {
     public JsonArray mapSetJsonArray;
     public JsonObject mapJsonObject;
-    public JsonObject pp = new JsonObject();
-
 
     String NonNull(JsonObject JO, String value) {
         try {
@@ -16,23 +18,8 @@ public class MessageBuilder {
             return "-";
         }
     }
-
-    String downloadList(String ppy, String bloodcat, String thftgr) {
-        String s = "";
-        if (ppy != null) {
-            s += "[ [osu!] ](" + ppy + ")";
-        }
-        if (bloodcat != null) {
-            s += "[ [BloodCat] ](" + bloodcat + ")";
-        }
-        if (thftgr != null) {
-            s += "[ [thftgr] ](" + thftgr + ")";
-        }
-        return s;
-    }
-
     String mapInfo() {
-        //여기에 상세정보를 제작
+
         int i = Integer.parseInt(NonNull(mapJsonObject, "total_length"));
 
         String msg = "";
@@ -84,11 +71,10 @@ public class MessageBuilder {
 
         msg += "▸CS: " + NonNull(mapJsonObject, "diff_size") + " \n";
 
-//        if (mod != 1) {
 
-            JsonObject mapData = new ppCalc().ppCalcLocal(mapSetJsonArray, 100f, 0);
-            msg += "▸PP: " + mapData.get(mapJsonObject.get("version").getAsString()).getAsString();
-//        }
+        JsonObject mapData = ppCalc(mapSetJsonArray);
+        msg += "▸PP: " + mapData.get(mapJsonObject.get("version").getAsString()).getAsString();
+
         return msg;
     }
 
@@ -130,7 +116,7 @@ public class MessageBuilder {
         int playtime = avgPlaytime();
         String info = "▸PlayTime AVG : " + (playtime / 60) + "m " + (playtime - ((playtime / 60) * 60)) + "s ▸BPM: " + NonNull(mapSetJsonArray.get(0).getAsJsonObject(), "bpm") + "\n";
         long nanoTime = System.nanoTime();
-        JsonObject mapData = new ppCalc().ppCalcLocal(mapSetJsonArray, 100f, 0);
+        JsonObject mapData = ppCalc(mapSetJsonArray);
 
         for (int i = 0; i < mapSetJsonArray.size(); i++) {
             JsonObject J = mapSetJsonArray.get(i).getAsJsonObject();
@@ -139,8 +125,8 @@ public class MessageBuilder {
 
 
             if (mod != 3) msg += " " + mapData.get(J.get("version").getAsString()).getAsString();
-            if (mod == 3) msg += " [" + J.get("diff_size").getAsString() + " key] " + mapData.get(J.get("version").getAsString()).getAsString();
-
+            if (mod == 3)
+                msg += " [" + J.get("diff_size").getAsString() + " key] " + mapData.get(J.get("version").getAsString()).getAsString();
 
 
             modeList[J.get("mode").getAsInt()] += msg + "\n";
@@ -159,7 +145,7 @@ public class MessageBuilder {
         if (!(modeList[3].equals(""))) {
             modeList[4] += "[osu!Mania]\n" + modeList[3] + "\n";
         }
-        return info + "\n" + modeList[4] +"CT = " + ((System.nanoTime() - nanoTime) / 1000000) + "ms" ;
+        return info + "\n" + modeList[4] + "CT = " + ((System.nanoTime() - nanoTime) / 1000000) + "ms";
     }
 
     String userInfo(JsonArray user, JsonArray BestMap, String mode) {
@@ -233,10 +219,6 @@ public class MessageBuilder {
 
     }
 
-    String oszFileNameBuilder() {
-        return NonNull(mapJsonObject, "beatmapset_id") + " " + NonNull(mapJsonObject, "artist") + " - " + NonNull(mapJsonObject, "title") + ".osz";
-    }
-
     int avgPlaytime() {
         int avgPlayTime = 0;
         for (int i = 0; i < mapSetJsonArray.size(); i++) {
@@ -245,6 +227,37 @@ public class MessageBuilder {
             avgPlayTime += mapSetJsonArray.get(i).getAsJsonObject().get("total_length").getAsInt();
         }
         return avgPlayTime / mapSetJsonArray.size();
+    }
+
+    JsonObject ppCalc(JsonArray mapSetJsonArray) {
+        JsonObject mapData = new JsonObject();
+        for (int i = 0; i < mapSetJsonArray.size(); i++) {
+            String version = "";
+            float pp = 0;
+            switch (mapSetJsonArray.get(i).getAsJsonObject().get("mode").getAsInt()) {
+                case 0:
+                    version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
+                    pp = (float) new STD().Calculate(mapSetJsonArray.get(i).getAsJsonObject());
+                    mapData.addProperty(version, String.format("%.2fpp", pp));
+                    break;
+                case 1:
+                    version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
+                    pp = (float) new Taiko().Calculate(mapSetJsonArray.get(i).getAsJsonObject());
+                    mapData.addProperty(version, String.format("%.2fpp", pp));
+                    break;
+                case 2:
+                    version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
+                    pp = (float) new Catch().Calculate(mapSetJsonArray.get(i).getAsJsonObject());
+                    mapData.addProperty(version, String.format("%.2fpp", pp));
+                    break;
+                case 3:
+                    version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
+                    pp = (float) new Mania().Calculate(mapSetJsonArray.get(i).getAsJsonObject());
+                    mapData.addProperty(version, String.format("%.2fpp", pp));
+                    break;
+            }
+        }
+        return mapData;
     }
 
 
