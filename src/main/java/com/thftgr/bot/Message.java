@@ -182,32 +182,10 @@ public class Message {
 
     }
 
-    void addPage(net.dv8tion.jda.api.entities.Message message) {
-        message.addReaction("U+23EA").queue();
-        message.addReaction("U+23E9").queue();
-    }
-
     void editMessage(MessageChannel channel, String messageID, EmbedBuilder eb) {
         channel.editMessageById(messageID, eb.build()).queue();
     }
 
-
-    String[] embedVeryLongString(String Description) {
-
-
-        String[] s = Description.split("\n");
-        String[] ret = new String[2];
-
-        for (int i = 0; i < s.length; i++) {
-
-            if (ret[0].length() <= 2048) {
-                ret[0] += s[i] + "\n";
-            } else if (ret[1].length() <= 2048) {
-                ret[1] += s[i] + "\n";
-            }
-        }
-        return ret;
-    }
 
 
 }

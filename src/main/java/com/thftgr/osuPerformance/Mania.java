@@ -1,8 +1,6 @@
 package com.thftgr.osuPerformance;
 
 import com.google.gson.JsonObject;
-import com.thftgr.bot.OsuPPCalc;
-import com.thftgr.bot.ppCalc;
 
 public class Mania {
     int mods = 0;
