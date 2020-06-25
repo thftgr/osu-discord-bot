@@ -1,31 +1,45 @@
 package com.thftgr.z_notuse;
 
 
-import com.thftgr.bot.OsuPPCalc;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class test {
 
 
     public static void main(String[] args) {
-        //new ppCalc().parseMods("hdhrdt");
-        OsuPPCalc ppCalc = new OsuPPCalc();
+        String path = "Y:\\home\\guest1241\\beatmaps\\";
+        File SongsDir = new File(path);
+        File[] f = SongsDir.listFiles();
 
-        ppCalc.mods = 0;
 
-        ppCalc.difficultyrating =2.28166;
-        ppCalc.totalHits = 194;
-        ppCalc.countMiss = 0;
-        ppCalc.beatmapMaxCombo = 194;
+        while (true){
+            for (int i = 0; i < f.length ; i++) {
+                //System.out.println(f[i].getName());
+                try {
+                    File tmp = new File(path + f[i].getName());
 
-        ppCalc.misses = 0;
-        ppCalc.scoreMaxCombo =194;
-        ppCalc.od =6;
-        ppCalc.accuracy = 1;
+                    if (tmp.isDirectory() & tmp.getName().contains(" ")) {
+                        tmp.renameTo(new File(path + f[i].getName().substring(0, f[i].getName().indexOf(" "))));
+                        System.out.println(tmp.getName());
+                    }
 
-        System.out.println(ppCalc.taikoPPCalculate());
+                } catch (Exception e) {
+                    System.out.println("error : "+e.getMessage());
+                }
+
+
+            }
+            System.out.println(f.length + ". fin");
+        }
+
 
 
     }
+
+
 
     public void parseMods(String mods) {
         String[] mod = new String[mods.length() / 2];
@@ -37,6 +51,9 @@ public class test {
 
 
 }
+
+
+
 
 
 
