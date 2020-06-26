@@ -124,9 +124,11 @@ public class MessageBuilder {
             int mod = J.get("mode").getAsInt();
 
 
-            if (mod != 3) msg += " " + mapData.get(J.get("version").getAsString()).getAsString();
-            if (mod == 3)
+            if (mod != 3) {
+                msg += " " + mapData.get(J.get("version").getAsString()).getAsString();
+            }else{
                 msg += " [" + J.get("diff_size").getAsString() + " key] " + mapData.get(J.get("version").getAsString()).getAsString();
+            }
 
 
             modeList[J.get("mode").getAsInt()] += msg + "\n";
@@ -238,22 +240,22 @@ public class MessageBuilder {
                 case 0:
                     version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
                     pp = (float) new STD().Calculate(mapSetJsonArray.get(i).getAsJsonObject());
-                    mapData.addProperty(version, String.format("%.2fpp", pp));
+                    mapData.addProperty(version, (int)pp+"pp");
                     break;
                 case 1:
                     version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
                     pp = (float) new Taiko().Calculate(mapSetJsonArray.get(i).getAsJsonObject());
-                    mapData.addProperty(version, String.format("%.2fpp", pp));
+                    mapData.addProperty(version, (int)pp+"pp");
                     break;
                 case 2:
                     version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
                     pp = (float) new Catch().Calculate(mapSetJsonArray.get(i).getAsJsonObject());
-                    mapData.addProperty(version, String.format("%.2fpp", pp));
+                    mapData.addProperty(version, (int)pp+"pp");
                     break;
                 case 3:
                     version = mapSetJsonArray.get(i).getAsJsonObject().get("version").getAsString();
                     pp = (float) new Mania().Calculate(mapSetJsonArray.get(i).getAsJsonObject());
-                    mapData.addProperty(version, String.format("%.2fpp", pp));
+                    mapData.addProperty(version, (int)pp+"pp");
                     break;
             }
         }

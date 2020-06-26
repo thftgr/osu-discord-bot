@@ -69,6 +69,7 @@ public class EventListener extends ListenerAdapter {
         } else {
             msg_ = "!";
         }
+        if(msg.toLowerCase().equals("owo")) e.getChannel().sendMessage("What's This?").queue();
 
         if (!msg.startsWith(msg_)) return;
         String cmd = msg.substring(1);

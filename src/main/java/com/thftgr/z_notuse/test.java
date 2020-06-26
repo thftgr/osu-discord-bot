@@ -2,9 +2,6 @@ package com.thftgr.z_notuse;
 
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class test {
 
@@ -15,30 +12,27 @@ public class test {
         File[] f = SongsDir.listFiles();
 
 
-        while (true){
-            for (int i = 0; i < f.length ; i++) {
-                //System.out.println(f[i].getName());
-                try {
-                    File tmp = new File(path + f[i].getName());
+        for (int i = 0; i < f.length; i++) {
+            //System.out.println(f[i].getName());
+            try {
+                File tmp = new File(path + f[i].getName());
 
-                    if (tmp.isDirectory() & tmp.getName().contains(" ")) {
-                        tmp.renameTo(new File(path + f[i].getName().substring(0, f[i].getName().indexOf(" "))));
-                        System.out.println(tmp.getName());
-                    }
+                if (tmp.isDirectory() & tmp.getName().contains(" ")) {
+                    String filename = path + f[i].getName().substring(0, f[i].getName().indexOf(" "));
+                    tmp.renameTo(new File(filename));
+                    System.out.println(filename);
 
-                } catch (Exception e) {
-                    System.out.println("error : "+e.getMessage());
+
                 }
 
-
+            } catch (Exception e) {
+                System.out.println("error : " + e.getMessage());
             }
-            System.out.println(f.length + ". fin");
         }
-
-
+        System.out.println(f.length + ". fin");
+        System.gc();
 
     }
-
 
 
     public void parseMods(String mods) {
