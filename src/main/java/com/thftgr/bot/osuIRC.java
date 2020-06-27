@@ -1,7 +1,7 @@
 package com.thftgr.bot;
 
 import com.google.gson.JsonArray;
-import net.dv8tion.jda.api.JDA;
+import com.thftgr.webApi.WebApi;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.io.*;
@@ -81,31 +81,10 @@ class osuIRC {
                     String mapSetId = line.substring(line.indexOf(":[https:") + 33);
                     mapSetId = mapSetId.substring(0, mapSetId.indexOf(" "));
 
-                    JsonArray msinfo = new osuApiCall().call("get_beatmaps", "&s=" + mapSetId);
+                    JsonArray msinfo = new WebApi().call("get_beatmaps", "&s=" + mapSetId);
 
                     if (msinfo.get(0).getAsJsonObject().get("approved").getAsInt() == 1) {
                         for (int i = 0; i < channelList.size(); i++) {
-                            //맵파일 다운로드 먼저 받고 실행
-                            //맵파일 받기전까지 브레이크
-                            String downloadpath = Main.settingValue.get("downloadPath").getAsString();
-                            String oszname = new fileIO().getOszName(mapSetId);
-
-                            if (oszname == null) {
-                                if (!new ApiUtil().getBeatmapDownload(mapSetId)) {
-                                    System.out.println("Can't download beatmap");
-                                    return;
-                                }
-                                oszname = new fileIO().getOszName(mapSetId);
-                            }
-
-                            if(!new File(downloadpath+(oszname.substring(0,oszname.indexOf(".osz")))).isDirectory()){
-                                if (!new fileIO().unzipOsz(downloadpath, oszname)) {
-                                    System.out.println("Can't Unzip beatmap");
-                                    return;
-                                }
-                            }
-
-
                             new Thread(new ThreadRun.beatmapSetPrint(messageChannelList[i], mapSetId, "[NEW_RANKED_MAPSET]\n")).start();
                         }
                     }

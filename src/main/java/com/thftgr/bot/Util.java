@@ -10,69 +10,11 @@ import java.util.Arrays;
 
 public class Util {
 
-    public void download(String sourceUrl, String targetFilename) {
-        FileOutputStream fos = null;
-        InputStream is = null;
-        String pathAndFileName = Main.settingValue.get("downloadPath").getAsString() + targetFilename;
-        try {
-            fos = new FileOutputStream(pathAndFileName + ".tmp");
-            is = new URL(sourceUrl).openConnection().getInputStream();
-            byte[] buffer = new byte[8192];
-            int readBytes;
-            while ((readBytes = is.read(buffer)) != -1) {
-                fos.write(buffer, 0, readBytes);
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        } finally {
-
-            try {
-                if (fos != null) {
-                    fos.close();
-                }
-                if (is != null) {
-                    is.close();
-                }
-                File f = new File(pathAndFileName);
-                if (f.isFile()) f.delete();
-                System.out.println(pathAndFileName);
-
-                renameFile(pathAndFileName + ".tmp", pathAndFileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    void divisionDownload(MessageChannel channel, int start, int end) {
-        if ((end - start) >= 20) {
-            int divv = ((end - start) / 4);
-            int sets = start;
 
 
-            while ((end - sets) > divv) {
-
-                new Thread(new ThreadRun.beatmapDownload(channel, Integer.toString(sets), Integer.toString((sets + divv) - 1))).start();
-
-                System.out.println(sets + ":" + ((sets + divv) - 1) + ":" + ((sets + divv) - sets));
-                sets += divv;
-            }
-
-            System.out.println(sets + ":" + end + ":" + (end - sets));
-            new Thread(new ThreadRun.beatmapDownload(channel, Integer.toString(sets), Integer.toString(end))).start();
-        } else {
-            new Thread(new ThreadRun.beatmapDownload(channel, Integer.toString(start), Integer.toString(end))).start();
-            System.out.println(start + ":" + end + ":" + (end - start));
-        }
 
 
-    }
 
-    void renameFile(String filename, String newFilename) {
-        File file = new File(filename);
-        File fileNew = new File(newFilename);
-        if (file.exists()) file.renameTo(fileNew);
-    }
 
     String grabUsername(String str) {
 

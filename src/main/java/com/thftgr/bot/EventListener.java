@@ -17,7 +17,6 @@ public class EventListener extends ListenerAdapter {
     public static JDA mainJda;
 
 
-
     @Override // 특정 누군가의 온라인 status 이벤트
     public void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent event) {
         OnlineStatus os = event.getGuild().getMember(event.getUser()).getOnlineStatus();
@@ -50,10 +49,12 @@ public class EventListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
+        try{
+            if (e.getMember().getUser().isBot()) return;
+        } catch (Exception ignored){
 
-        //System.out.println("permission :"+e.getMember().getPermissions().toString().contains("ADMINISTRATOR"));
+        }
 
-        if (e.getMember().getUser().isBot()) return;
 
 
         //List<Attachment> att = e.getMessage().getAttachments();
@@ -69,7 +70,7 @@ public class EventListener extends ListenerAdapter {
         } else {
             msg_ = "!";
         }
-        if(msg.toLowerCase().equals("owo")) e.getChannel().sendMessage("What's This?").queue();
+        if (msg.toLowerCase().equals("owo")) e.getChannel().sendMessage("What's This?").queue();
 
         if (!msg.startsWith(msg_)) return;
         String cmd = msg.substring(1);
@@ -117,18 +118,14 @@ public class EventListener extends ListenerAdapter {
 
             case "d":
             case "download":
-                if (!e.getAuthor().getId().equals("368620104365244418")) {
-                    new Message().sayMsg(e.getChannel(), "이 기능은 임시 비활성 입니다. thftgr#3102 에게 문의하세요.", null);
-                    break;
-                }
                 if (array.length < 2) {
                     new Message().sayMsg(e.getChannel(), "!d [mapSetID]", null);
                 } else if (array.length == 2) {
                     new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], null)).start();
                 } else {
-                    if (e.getAuthor().getId().equals("368620104365244418")) {
-                        new Util().divisionDownload(e.getChannel(), Integer.parseInt(array[1]), Integer.parseInt(array[2]));
-                    }
+                    if (e.getAuthor().getId().equals("368620104365244418")) new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], array[2])).start();
+                    //new Util().divisionDownload(e.getChannel(), Integer.parseInt(array[1]), Integer.parseInt(array[2]));
+
                 }
                 break;
 
@@ -144,10 +141,8 @@ public class EventListener extends ListenerAdapter {
 
             case "s":
             case "status":
-                if (!e.getAuthor().getId().equals("368620104365244418")) {
-                    new Message().sayMsg(e.getChannel(), "이 기능은 봇 주인만 가능합니다. thftgr#3102 에게 문의하세요.", null);
-                    break;
-                }
+                if (!e.getAuthor().getId().equals("368620104365244418")) break;
+
                 if (array.length > 2) {
                     if (array.length > 3) {
                         for (int i = 3; i < array.length; i++) {

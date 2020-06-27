@@ -6,6 +6,7 @@ import com.thftgr.osuPerformance.Catch;
 import com.thftgr.osuPerformance.Mania;
 import com.thftgr.osuPerformance.STD;
 import com.thftgr.osuPerformance.Taiko;
+import com.thftgr.webApi.WebApi;
 
 public class MessageBuilder {
     public JsonArray mapSetJsonArray;
@@ -18,13 +19,14 @@ public class MessageBuilder {
             return "-";
         }
     }
+
     String mapInfo() {
 
         int i = Integer.parseInt(NonNull(mapJsonObject, "total_length"));
 
         String msg = "";
         String BloodcatLink;
-        if ((BloodcatLink = new ApiUtil().getBloodcatPriviewLink(NonNull(mapJsonObject, "beatmap_id"))) != null)
+        if ((BloodcatLink = new WebApi().getBloodcatPriviewLink(NonNull(mapJsonObject, "beatmap_id"))) != null)
             msg += "▸[Preview](" + BloodcatLink + ")\n";
 
         msg += "▸Mode: " + modeParse(NonNull(mapJsonObject, "mode")) + "\n";
@@ -52,7 +54,7 @@ public class MessageBuilder {
 
         String msg = "";
         String BloodcatLink;
-        if ((BloodcatLink = new ApiUtil().getBloodcatPriviewLink(NonNull(mapJsonObject, "beatmap_id"))) != null)
+        if ((BloodcatLink = new WebApi().getBloodcatPriviewLink(NonNull(mapJsonObject, "beatmap_id"))) != null)
             msg += "▸[Preview](" + BloodcatLink + ")\n";
 
         msg += "▸Mode: " + modeParse(NonNull(mapJsonObject, "mode")) + "\n";

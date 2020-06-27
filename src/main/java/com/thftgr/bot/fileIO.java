@@ -1,6 +1,7 @@
 package com.thftgr.bot;
 
 import com.google.gson.JsonArray;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
@@ -38,6 +39,29 @@ public class fileIO {
 //        }
 //
 //    }
+//void divisionDownload(MessageChannel channel, int start, int end) {
+//    if ((end - start) >= 20) {
+//        int divv = ((end - start) / 4);
+//        int sets = start;
+//
+//
+//        while ((end - sets) > divv) {
+//
+//            new Thread(new ThreadRun.beatmapDownload(channel, Integer.toString(sets), Integer.toString((sets + divv) - 1))).start();
+//
+//            System.out.println(sets + ":" + ((sets + divv) - 1) + ":" + ((sets + divv) - sets));
+//            sets += divv;
+//        }
+//
+//        System.out.println(sets + ":" + end + ":" + (end - sets));
+//        new Thread(new ThreadRun.beatmapDownload(channel, Integer.toString(sets), Integer.toString(end))).start();
+//    } else {
+//        new Thread(new ThreadRun.beatmapDownload(channel, Integer.toString(start), Integer.toString(end))).start();
+//        System.out.println(start + ":" + end + ":" + (end - start));
+//    }
+//
+//
+//}
 
 //    void textLineRemover(String fileName, String removeText) throws IOException { //텍스트 파일 읽어서 해당하는 라인 삭제
 //
@@ -89,29 +113,29 @@ public class fileIO {
 //
 //    }
 
-    Boolean unzipOsz(String path, String filename) {
-        if (path == null || filename == null) return false;
-        String source = path + filename;
-        try {
-            new ZipFile(source).extractAll(source.substring(0, source.indexOf(".osz")));
-            return true;
-        } catch (ZipException e) {
-            return false;
-        }
-    }
+//    Boolean unzipOsz(String path, String filename) {
+//        if (path == null || filename == null) return false;
+//        String source = path + filename;
+//        try {
+//            new ZipFile(source).extractAll(source.substring(0, source.indexOf(".osz")));
+//            return true;
+//        } catch (ZipException e) {
+//            return false;
+//        }
+//    }
 
-    String getOszName(String mapID) {
-        String path = Main.settingValue.get("downloadPath").getAsString();
-        File[] matchingFiles = new File(path).listFiles(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.startsWith(mapID + " ") && (name.endsWith(".osz"));
-            }
-        });
-
-        if (matchingFiles.length == 0) return null;
-        return matchingFiles[0].getName();
-
-    }
+//    String getOszName(String mapID) {
+//        String path = Main.settingValue.get("downloadPath").getAsString();
+//        File[] matchingFiles = new File(path).listFiles(new FilenameFilter() {
+//            public boolean accept(File dir, String name) {
+//                return name.startsWith(mapID + " ") && (name.endsWith(".osz"));
+//            }
+//        });
+//
+//        if (matchingFiles.length == 0) return null;
+//        return matchingFiles[0].getName();
+//
+//    }
 
 //    String getUnzipPath(String mapID) {
 //        String oszname;
@@ -167,6 +191,8 @@ public class fileIO {
             e.printStackTrace();
         }
     }
+
+
 
 
 }

@@ -2,6 +2,7 @@ package com.thftgr.bot;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.thftgr.webApi.WebApi;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
@@ -49,7 +50,7 @@ public class Message {
 
         EmbedBuilder eb = new EmbedBuilder().setColor(new Color(255, 255, 255));
 
-        mb.mapSetJsonArray = new osuApiCall().call("get_beatmaps", "&b=" + mapID);
+        mb.mapSetJsonArray = new WebApi().call("get_beatmaps", "&b=" + mapID);
         mb.mapJsonObject = mb.mapSetJsonArray.get(0).getAsJsonObject();
         if (mb.mapJsonObject == null) {// 맵이 없는경우
             channel.sendMessage(eb.setDescription("😢 BeatmapDecoder Not Found! Check mapID").build()).queue();
@@ -91,7 +92,7 @@ public class Message {
     void beatmapSetPrint(MessageChannel channel, String mapSetID, String _title) {
 
         EmbedBuilder eb = new EmbedBuilder().setColor(new Color(255, 255, 255));
-        JsonArray mapSetJsonArray = new osuApiCall().call("get_beatmaps", "&s=" + mapSetID);
+        JsonArray mapSetJsonArray = new WebApi().call("get_beatmaps", "&s=" + mapSetID);
 
 
         if (mapSetJsonArray == null) { //맵 조회
@@ -112,6 +113,7 @@ public class Message {
 
 
         eb.setImage("https://b.ppy.sh/thumb/" + mapSetID + "l.jpg");
+        System.out.println("https://b.ppy.sh/thumb/" + mapSetID + "l.jpg");
         String map_date;
 
         if (!mapSetJsonArray.get(0).getAsJsonObject().get("approved_date").isJsonNull()) {
@@ -141,8 +143,8 @@ public class Message {
 
     void UserInfo(MessageChannel channel, String username, String mode) {
         try {
-            JsonArray PF = new osuApiCall().call("get_user", "&u=" + username + "&m=" + mode);
-            JsonArray BP = new osuApiCall().call("get_user_best", "&u=" + username + "&m=" + mode);
+            JsonArray PF = new WebApi().call("get_user", "&u=" + username + "&m=" + mode);
+            JsonArray BP = new WebApi().call("get_user_best", "&u=" + username + "&m=" + mode);
             System.out.println(PF.toString());
 
             new Message().sayMsg(channel, new MessageBuilder().userInfo(PF, BP, mode), "json");
