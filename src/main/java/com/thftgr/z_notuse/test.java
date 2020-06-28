@@ -6,18 +6,14 @@ import com.thftgr.bot.ThreadRun;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.io.File;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class test {
 
 
     public static void main(String[] args) {
         new test().fileNameRebuild();
-
-
-
-
-
-
     }
 
 
@@ -30,7 +26,7 @@ public class test {
     }
 
     void fileNameRebuild(){
-        String path = "Y:\\home\\guest1241\\beatmaps\\_tmp\\";
+        String path = "Y:\\_tmp\\";
         File SongsDir = new File(path);
         File[] f = SongsDir.listFiles();
 
@@ -45,7 +41,11 @@ public class test {
                     String filename = path + f[i].getName().substring(0,f[i].getName().indexOf(" "))+".osz";
                     tmp.renameTo(new File(filename));
                     System.out.println(filename);
-
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(100);
+                    } catch (InterruptedException e) {
+                        System.out.println(e);
+                    }
 
                 }
 

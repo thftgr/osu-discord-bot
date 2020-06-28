@@ -16,6 +16,8 @@ import java.io.FileReader;
 
 public class Main{
     public static JsonObject settingValue ;
+    public static int downloadThread = 4;
+
 
 
 

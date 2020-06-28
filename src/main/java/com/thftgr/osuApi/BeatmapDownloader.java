@@ -60,7 +60,7 @@ public class BeatmapDownloader {
 
     void downloadMultiThread(MessageChannel channel, int mapStart, int maplast) {
 
-        int divv = ((maplast - mapStart) / 4);
+        int divv = ((maplast - mapStart) / Main.downloadThread);
         int sets = mapStart;
 
         while ((maplast - sets) > divv) {

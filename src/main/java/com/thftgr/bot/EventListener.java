@@ -17,6 +17,7 @@ public class EventListener extends ListenerAdapter {
     public static JDA mainJda;
 
 
+
     @Override // 특정 누군가의 온라인 status 이벤트
     public void onUserUpdateOnlineStatus(UserUpdateOnlineStatusEvent event) {
         OnlineStatus os = event.getGuild().getMember(event.getUser()).getOnlineStatus();
@@ -122,11 +123,13 @@ public class EventListener extends ListenerAdapter {
                     new Message().sayMsg(e.getChannel(), "!d [mapSetID]", null);
                 } else if (array.length == 2) {
                     new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], null)).start();
-                } else {
+                } else if (array.length == 3) {
                     if (e.getAuthor().getId().equals("368620104365244418")) new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], array[2])).start();
-                    //new Util().divisionDownload(e.getChannel(), Integer.parseInt(array[1]), Integer.parseInt(array[2]));
-
+                } else if (array.length == 4){
+                    if (e.getAuthor().getId().equals("368620104365244418")) new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], array[2])).start();
+                    Main.downloadThread = Integer.parseInt(array[3]);
                 }
+
                 break;
 
             case "rmn":
