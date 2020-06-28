@@ -38,23 +38,20 @@ public class EventListener extends ListenerAdapter {
         mainJda = event.getJDA();
     }
 
-    @Override // 반응 이모지 추가시
-    public void onMessageReactionAdd(@Nonnull MessageReactionAddEvent event) {
-        super.onMessageReactionAdd(event);
-        //System.out.println(event.getReaction().getMessageId());
-        //JDA jda = event.getJDA();
-        //System.out.println(jda.getTextChannelById(event.getChannel().getId()).getHistory().getMessageById(event.getMessageId()).getContentRaw());
 
-    }
 
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
         try{
             if (e.getMember().getUser().isBot()) return;
-        } catch (Exception ignored){
+        } catch (Exception ignored){}
 
+        if(e.getGuild().getId().equals("694761736401584170")) {
+            new com.thftgr.Debian.debainMain().eventListener(e);
+            return;
         }
+
 
 
 
