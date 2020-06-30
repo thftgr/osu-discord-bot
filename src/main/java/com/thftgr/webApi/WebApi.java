@@ -2,7 +2,7 @@ package com.thftgr.webApi;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
-import com.thftgr.bot.Main;
+import com.thftgr.discord.Main;
 
 import java.io.*;
 import java.net.HttpURLConnection;

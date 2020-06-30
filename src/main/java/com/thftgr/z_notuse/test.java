@@ -1,12 +1,7 @@
 package com.thftgr.z_notuse;
 
 
-import com.thftgr.bot.Main;
-import com.thftgr.bot.ThreadRun;
-import net.dv8tion.jda.api.entities.MessageChannel;
-
 import java.io.File;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class test {

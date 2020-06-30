@@ -2,8 +2,8 @@ package com.thftgr.osuApi;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.thftgr.bot.Main;
-import com.thftgr.bot.ThreadRun;
+import com.thftgr.discord.Main;
+import com.thftgr.discord.ThreadRun;
 import com.thftgr.webApi.WebApi;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
