@@ -49,14 +49,19 @@ public class WebApi {
         FileOutputStream fileOutputStream = null;
         InputStream inputStream = null;
         String pathAndFileName = Main.settingValue.get("downloadPath").getAsString() + targetFilename;
+
+
         try {
 
             fileOutputStream = new FileOutputStream(pathAndFileName + ".tmp");
+
             inputStream = new URL(sourceUrl).openConnection().getInputStream();
+            //인풋스트림을 전달
             byte[] buffer = new byte[8192];
             int readBytes;
             while ((readBytes = inputStream.read(buffer)) != -1) {
                 fileOutputStream.write(buffer, 0, readBytes);
+
             }
 
         } catch (IOException e) {
@@ -67,6 +72,8 @@ public class WebApi {
                 if (fileOutputStream != null) {
                     fileOutputStream.close();
                 }
+
+
                 if (inputStream != null) {
                     inputStream.close();
                 }

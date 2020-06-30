@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.user.update.UserUpdateOnlineStatusEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -15,7 +14,6 @@ import javax.annotation.Nonnull;
 
 public class EventListener extends ListenerAdapter {
     public static JDA mainJda;
-
 
 
     @Override // 특정 누군가의 온라인 status 이벤트
@@ -39,20 +37,17 @@ public class EventListener extends ListenerAdapter {
     }
 
 
-
-
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
-        try{
+        try {
             if (e.getMember().getUser().isBot()) return;
-        } catch (Exception ignored){}
-
-        if(e.getGuild().getId().equals("694761736401584170")) {
-            new com.thftgr.Debian.debainMain().eventListener(e);
-            return;
+        } catch (Exception ignored) {
         }
 
-
+//        if(e.getGuild().getId().equals("694761736401584170")) {
+//            new com.thftgr.Debian.debainMain().eventListener(e);
+//            return;
+//        }
 
 
         //List<Attachment> att = e.getMessage().getAttachments();
@@ -77,9 +72,7 @@ public class EventListener extends ListenerAdapter {
         switch (array[0]) {
             case "h":
             case "help":
-                if (array.length < 2) {
-                    new Message().helpMessage(e.getChannel());
-                }
+                new Message().helpMessage(e.getChannel());
                 break;
 
 
@@ -121,9 +114,11 @@ public class EventListener extends ListenerAdapter {
                 } else if (array.length == 2) {
                     new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], null)).start();
                 } else if (array.length == 3) {
-                    if (e.getAuthor().getId().equals("368620104365244418")) new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], array[2])).start();
-                } else if (array.length == 4){
-                    if (e.getAuthor().getId().equals("368620104365244418")) new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], array[2])).start();
+                    if (e.getAuthor().getId().equals("368620104365244418"))
+                        new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], array[2])).start();
+                } else if (array.length == 4) {
+                    if (e.getAuthor().getId().equals("368620104365244418"))
+                        new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], array[2])).start();
                     Main.downloadThread = Integer.parseInt(array[3]);
                 }
 
