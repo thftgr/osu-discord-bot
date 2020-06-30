@@ -1,4 +1,4 @@
-package com.thftgr.osuApi;
+package com.thftgr.osu_Servers.bancho;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

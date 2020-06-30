@@ -66,11 +66,26 @@ public class EventListener extends ListenerAdapter {
         }
         if (msg.toLowerCase().equals("owo")) e.getChannel().sendMessage("What's This?").queue();
         if (!msg.startsWith(msg_)) return;
-        String index = Main.settingValue.get("discord.channelOption").getAsJsonObject().get()
-
-
         String cmd = msg.substring(1);
         String[] array = cmd.split(" ");
+
+
+        if (!Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).isJsonNull()) {
+
+            switch (Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).getAsString()) {
+                case "gatari":
+                    new com.thftgr.osu_Servers.gatari.gatariMain().event(e);
+                    break;
+                case "debian":
+                    new com.thftgr.osu_Servers.Debian.debainMain().event(e);
+                    break;
+
+            }
+
+        }
+
+
+
 
         switch (array[0]) {
             case "h":

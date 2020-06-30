@@ -1,6 +1,6 @@
 package com.thftgr.discord;
 
-import com.thftgr.osuApi.BeatmapDownloader;
+import com.thftgr.osu_Servers.bancho.BeatmapDownloader;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 public class ThreadRun {
