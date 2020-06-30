@@ -26,6 +26,7 @@ class osuIRC {
         try {
 
 
+
             String server = Main.settingValue.get("irc.url").getAsString();
             int port = Main.settingValue.get("irc.port").getAsInt();
             String nickname = Main.settingValue.get("irc.username").getAsString();

@@ -3,7 +3,6 @@ package com.thftgr.osu_Servers.bancho;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.thftgr.discord.Main;
-import com.thftgr.discord.ThreadRun;
 import com.thftgr.webApi.WebApi;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
@@ -64,13 +63,13 @@ public class BeatmapDownloader {
         int sets = mapStart;
 
         while ((maplast - sets) > divv) {
-            new Thread(new ThreadRun.beatmapDownloadRun(channel, sets, ((sets + divv) - 1))).start();
+            new Thread(new serverThread.beatmapDownloadRun(channel, sets, ((sets + divv) - 1))).start();
             channel.sendMessage("download started : " +sets + " ~ " + ((sets + divv) - 1)).queue();
 
             sets += divv;
         }
         if ((maplast - sets) != 0) {
-            new Thread(new ThreadRun.beatmapDownloadRun(channel, sets, maplast)).start();
+            new Thread(new serverThread.beatmapDownloadRun(channel, sets, maplast)).start();
             channel.sendMessage("download started : " +sets + " ~ " + maplast).queue();
             System.out.println(sets + " : " + maplast + ":" + (maplast - sets));
         }

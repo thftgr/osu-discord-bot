@@ -32,7 +32,7 @@ public class EventListener extends ListenerAdapter {
     @Override //봇 시작시
     public void onReady(@Nonnull ReadyEvent event) {
         super.onReady(event);
-        //new Thread(new ThreadRun.rankWatcher()).start();
+        //new serverThread(new ThreadRun.rankWatcher()).start();
         mainJda = event.getJDA();
 
     }
@@ -45,134 +45,120 @@ public class EventListener extends ListenerAdapter {
         } catch (Exception ignored) {
         }
 
-//        if(e.getGuild().getId().equals("694761736401584170")) {
-//            new com.thftgr.osu_Servers.Debian.debainMain().eventListener(e);
-//            return;
+        String messageFormChannel = e.getMessage().getContentRaw();
+        if (messageFormChannel.toLowerCase().equals("owo")) e.getChannel().sendMessage("What's This?").queue();
+
+        if (!messageFormChannel.startsWith(Main.settingValue.get("commandStartWith").getAsString())) return;
+        if (e.getAuthor().getId().equals(Main.settingValue.get("discord.botOwnerID").getAsString())) {
+            new com.thftgr.discord.Private.HiddenCommand().event(e);
+        }
+        return;
+
+//        String cmd = messageFormChannel.substring(1);
+//        String[] array = cmd.split(" ");
+//
+//
+//        if (!Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).isJsonNull()) {
+//
+//            switch (Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).getAsString()) {
+//                case "gatari":
+//                    new com.thftgr.osu_Servers.gatari.gatariMain().event(e);
+//                    break;
+//                case "debian":
+//                    new com.thftgr.osu_Servers.Debian.debainMain().event(e);
+//                    break;
+//
+//            }
+//
 //        }
-
-
-        //List<Attachment> att = e.getMessage().getAttachments();
-//        if (!e.getMessage().getAttachments().isEmpty() && Main.deBugmode) {
-//            System.out.println(e.getMessage().getAttachments().get(0).getUrl());
-//            new detectText().getImgText(e.getChannel(), e.getMessage().getAttachments().get(0).getUrl());
+//
+//
+//        switch (array[0]) {
+//            case "h":
+//            case "help":
+//                new Message().helpMessage(e.getChannel());
+//                break;
+//
+//
+//            case "m":
+//            case "map":
+//                if (array.length < 2) {
+//                    new Message().sayMsg(e.getChannel(), "!map, m [mapID]", null);
+//                } else if (array.length == 2) {
+//                    new serverThread(new ThreadRun.beatmapPrint(e.getChannel(), array[1])).start();
+//                }
+//                break;
+//
+//            case "ms":
+//            case "mapset":
+//                if (array.length < 2) {
+//                    new Message().sayMsg(e.getChannel(), "!mapset, ms [mapSetID]", null);
+//                } else if (array.length == 2) {
+//                    new serverThread(new ThreadRun.beatmapSetPrint(e.getChannel(), array[1], "[MAPSET]\n")).start();
+//
+//                }
+//                break;
+//
+//            case "u":
+//            case "user":
+//                if (array.length < 2) {
+//                    new Message().sayMsg(e.getChannel(), "!user [username] [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!Mania ]", null);
+//                } else if (array.length == 2) {
+//                    new serverThread(new ThreadRun.getUserInfo(e.getChannel(), array[1], "")).start();
+//                } else {
+//                    new serverThread(new ThreadRun.getUserInfo(e.getChannel(), new Util().grabUsername(cmd), array[array.length - 1])).start();
+//                }
+//                break;
+//
+//
+//            case "d":
+//            case "download":
+//                if (array.length < 2) {
+//                    new Message().sayMsg(e.getChannel(), "!d [mapSetID]", null);
+//                } else if (array.length == 2) {
+//                    new serverThread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], null)).start();
+//                } else if (array.length == 3) {
+//                    if (e.getAuthor().getId().equals("368620104365244418"))
+//                        new serverThread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], array[2])).start();
+//                } else if (array.length == 4) {
+//                    if (e.getAuthor().getId().equals("368620104365244418"))
+//                        new serverThread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], array[2])).start();
+//                    Main.downloadThread = Integer.parseInt(array[3]);
+//                }
+//
+//                break;
+//
+//            case "rmn":
+//            case "rank_map_notice":
+//                if (e.getMember().isOwner()) {
+//                    new serverThread(new ThreadRun.setNewRankedMapnotice(e.getChannel())).start();
+//                } else {
+//                    e.getChannel().sendMessage("This Command Can Use Server Owner").queue();
+//                }
+//                break;
+//
+//
+//            case "s":
+//            case "status":
+//                if (!e.getAuthor().getId().equals("368620104365244418")) break;
+//
+//                if (array.length > 2) {
+//                    if (array.length > 3) {
+//                        for (int i = 3; i < array.length; i++) {
+//                            array[2] += " " + array[i];
+//                        }
+//                    }
+//                    new serverThread(new ThreadRun.setBotStatus(array)).start();
+//                } else {
+//                    new Message().sayMsg(e.getChannel(), "!status, s[P, L, W] [String Status use \"\" ]", null);
+//                }
+//                break;
+//
+//            case "t":
+//                break;
+//
 //        }
-
-        String msg = e.getMessage().getContentRaw();
-        String msg_;
-        if (Main.settingValue.get("debug").getAsString().equals("true")) {
-            msg_ = "@";
-        } else {
-            msg_ = "!";
-        }
-        if (msg.toLowerCase().equals("owo")) e.getChannel().sendMessage("What's This?").queue();
-        if (!msg.startsWith(msg_)) return;
-        String cmd = msg.substring(1);
-        String[] array = cmd.split(" ");
-
-
-        if (!Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).isJsonNull()) {
-
-            switch (Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).getAsString()) {
-                case "gatari":
-                    new com.thftgr.osu_Servers.gatari.gatariMain().event(e);
-                    break;
-                case "debian":
-                    new com.thftgr.osu_Servers.Debian.debainMain().event(e);
-                    break;
-
-            }
-
-        }
-
-
-
-
-        switch (array[0]) {
-            case "h":
-            case "help":
-                new Message().helpMessage(e.getChannel());
-                break;
-
-
-            case "m":
-            case "map":
-                if (array.length < 2) {
-                    new Message().sayMsg(e.getChannel(), "!map, m [mapID]", null);
-                } else if (array.length == 2) {
-                    new Thread(new ThreadRun.beatmapPrint(e.getChannel(), array[1])).start();
-                }
-                break;
-
-            case "ms":
-            case "mapset":
-                if (array.length < 2) {
-                    new Message().sayMsg(e.getChannel(), "!mapset, ms [mapSetID]", null);
-                } else if (array.length == 2) {
-                    new Thread(new ThreadRun.beatmapSetPrint(e.getChannel(), array[1], "[MAPSET]\n")).start();
-
-                }
-                break;
-
-            case "u":
-            case "user":
-                if (array.length < 2) {
-                    new Message().sayMsg(e.getChannel(), "!user [username] [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!Mania ]", null);
-                } else if (array.length == 2) {
-                    new Thread(new ThreadRun.getUserInfo(e.getChannel(), array[1], "")).start();
-                } else {
-                    new Thread(new ThreadRun.getUserInfo(e.getChannel(), new Util().grabUsername(cmd), array[array.length - 1])).start();
-                }
-                break;
-
-
-            case "d":
-            case "download":
-                if (array.length < 2) {
-                    new Message().sayMsg(e.getChannel(), "!d [mapSetID]", null);
-                } else if (array.length == 2) {
-                    new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], null)).start();
-                } else if (array.length == 3) {
-                    if (e.getAuthor().getId().equals("368620104365244418"))
-                        new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], array[2])).start();
-                } else if (array.length == 4) {
-                    if (e.getAuthor().getId().equals("368620104365244418"))
-                        new Thread(new ThreadRun.beatmapDownload(e.getChannel(), array[1], array[2])).start();
-                    Main.downloadThread = Integer.parseInt(array[3]);
-                }
-
-                break;
-
-            case "rmn":
-            case "rank_map_notice":
-                if (e.getMember().isOwner()) {
-                    new Thread(new ThreadRun.setNewRankedMapnotice(e.getChannel())).start();
-                } else {
-                    e.getChannel().sendMessage("This Command Can Use Server Owner").queue();
-                }
-                break;
-
-
-            case "s":
-            case "status":
-                if (!e.getAuthor().getId().equals("368620104365244418")) break;
-
-                if (array.length > 2) {
-                    if (array.length > 3) {
-                        for (int i = 3; i < array.length; i++) {
-                            array[2] += " " + array[i];
-                        }
-                    }
-                    new Thread(new ThreadRun.setBotStatus(array)).start();
-                } else {
-                    new Message().sayMsg(e.getChannel(), "!status, s[P, L, W] [String Status use \"\" ]", null);
-                }
-                break;
-
-            case "t":
-                break;
-
-        }
-        System.gc();
+//        System.gc();
 
     }
 

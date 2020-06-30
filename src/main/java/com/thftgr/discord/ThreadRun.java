@@ -22,22 +22,7 @@ public class ThreadRun {
 
     }
 
-    public static class beatmapDownloadRun implements Runnable {
-        MessageChannel channel;
-        int mapStart;
-        int maplast;
 
-        public beatmapDownloadRun(MessageChannel channel, int mapStart, int maplast) {
-            this.channel = channel;
-            this.mapStart = mapStart;
-            this.maplast =  maplast;
-        }
-
-        public void run() {
-            new BeatmapDownloader().downloads(channel, mapStart, maplast);
-        }
-
-    }
 
 
     public static class getUserInfo implements Runnable {
@@ -124,17 +109,7 @@ public class ThreadRun {
 
     }
 
-    public static class setBotStatus implements Runnable {
-        String[] array;
 
-        public setBotStatus(String[] array) {
-            this.array = array;
-        }
-
-        public void run() {
-            new JDAEvent().status(array[1], array[2]);
-        }
-    }
 
 
 }

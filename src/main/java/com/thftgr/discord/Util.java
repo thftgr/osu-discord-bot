@@ -4,7 +4,10 @@ import com.google.gson.JsonArray;
 
 import java.io.*;
 import java.net.URLEncoder;
+import java.sql.Time;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class Util {
 
@@ -78,6 +81,15 @@ public class Util {
             return array[1];
 
         }
+    }
+
+    public String GetUTCtime(){
+        TimeZone def = TimeZone.getDefault();
+
+        TimeZone.setDefault(TimeZone.getTimeZone("Etc/UTC"));
+        String dateTime = new java.sql.Date(new Date().getTime()).toString() + " " + new Time(new Date().getTime()).toString();
+        TimeZone.setDefault(def);
+        return dateTime;
     }
 
 

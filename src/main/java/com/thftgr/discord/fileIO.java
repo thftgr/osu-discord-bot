@@ -40,16 +40,16 @@ public class fileIO {
 //
 //        while ((end - sets) > divv) {
 //
-//            new Thread(new ThreadRun.beatmapDownload(channel, Integer.toString(sets), Integer.toString((sets + divv) - 1))).start();
+//            new serverThread(new ThreadRun.beatmapDownload(channel, Integer.toString(sets), Integer.toString((sets + divv) - 1))).start();
 //
 //            System.out.println(sets + ":" + ((sets + divv) - 1) + ":" + ((sets + divv) - sets));
 //            sets += divv;
 //        }
 //
 //        System.out.println(sets + ":" + end + ":" + (end - sets));
-//        new Thread(new ThreadRun.beatmapDownload(channel, Integer.toString(sets), Integer.toString(end))).start();
+//        new serverThread(new ThreadRun.beatmapDownload(channel, Integer.toString(sets), Integer.toString(end))).start();
 //    } else {
-//        new Thread(new ThreadRun.beatmapDownload(channel, Integer.toString(start), Integer.toString(end))).start();
+//        new serverThread(new ThreadRun.beatmapDownload(channel, Integer.toString(start), Integer.toString(end))).start();
 //        System.out.println(start + ":" + end + ":" + (end - start));
 //    }
 //

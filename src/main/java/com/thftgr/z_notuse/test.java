@@ -1,14 +1,13 @@
 package com.thftgr.z_notuse;
 
 
-import java.io.File;
-import java.util.concurrent.TimeUnit;
-
 public class test {
 
 
     public static void main(String[] args) {
-        new test().fileNameRebuild();
+System.out.println(new com.thftgr.discord.Util().GetUTCtime());
+
+        //System.out.println();
     }
 
 
@@ -20,38 +19,9 @@ public class test {
         }
     }
 
-    void fileNameRebuild(){
-        String path = "Y:\\_tmp\\";
-        File SongsDir = new File(path);
-        File[] f = SongsDir.listFiles();
 
 
-        for (int i = 0; i < f.length; i++) {
 
-            try {
-                File tmp = new File(path + f[i].getName());
-
-//                if (tmp.isDirectory() & tmp.getName().contains(" ")) {
-                if (tmp.getName().contains(" ")) {
-                    String filename = path + f[i].getName().substring(0,f[i].getName().indexOf(" "))+".osz";
-                    tmp.renameTo(new File(filename));
-                    System.out.println(filename);
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(100);
-                    } catch (InterruptedException e) {
-                        System.out.println(e);
-                    }
-
-                }
-
-            } catch (Exception e) {
-                System.out.println("error : " + e.getMessage());
-            }
-        }
-        System.out.println(f.length + ". fin");
-        System.gc();
-
-    }
 
 
 }

@@ -14,7 +14,7 @@ import java.util.Map;
 public class WebApi {
     public JsonArray call(String url, String Parameters) {
 
-        String Parm = "k=" + Main.settingValue.get("token.osu!").getAsString() + Parameters + "&a=0";
+        String Parm = "k=" + Main.settingValue.get("token.osu!").getAsString() + Parameters;
 
         HttpURLConnection httpURLConnection = connectServer("https://osu.ppy.sh/api/" + url + "?" + Parm);
 
