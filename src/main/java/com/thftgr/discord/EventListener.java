@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.user.update.UserUpdateOnlineStatusEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 
 public class EventListener extends ListenerAdapter {
@@ -41,14 +42,18 @@ public class EventListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
         try {
-            if (e.getMember().getUser().isBot()) return;
+            if (Objects.requireNonNull(e.getMember()).getUser().isBot()) return;
         } catch (Exception ignored) {
         }
 
-        String messageFormChannel = e.getMessage().getContentRaw();
-        if (messageFormChannel.toLowerCase().equals("owo")) e.getChannel().sendMessage("What's This?").queue();
 
-        if (!messageFormChannel.startsWith(Main.settingValue.get("commandStartWith").getAsString())) return;
+        //메세지가 커맨드가 맞는가.
+        if (!e.getMessage().getContentRaw().startsWith(Main.settingValue.get("commandStartWith").getAsString())) return;
+
+        //서버 주인인가.
+        if(Objects.requireNonNull(e.getMember()).isOwner()) new com.thftgr.discord.Private.ServerOwnerCommand().event(e);
+
+        //봇 주인인가.
         if (e.getAuthor().getId().equals(Main.settingValue.get("discord").getAsJsonObject().get("botOwnerID").getAsString())) {
             new com.thftgr.discord.Private.HiddenCommand().event(e);
         }
@@ -56,7 +61,7 @@ public class EventListener extends ListenerAdapter {
 
 
 
-
+        //채널 옵션이 있는지. 없으면 기본값 반쵸
         if (!Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).isJsonNull()) {
 
             switch (Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).getAsString()) {

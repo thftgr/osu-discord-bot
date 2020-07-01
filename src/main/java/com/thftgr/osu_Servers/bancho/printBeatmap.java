@@ -3,11 +3,13 @@ package com.thftgr.osu_Servers.bancho;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.thftgr.discord.EventListener;
+import com.thftgr.discord.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.awt.*;
+import java.util.Arrays;
 
 public class printBeatmap {
     JDA jda = EventListener.mainJda;
@@ -15,7 +17,8 @@ public class printBeatmap {
     void beatMapSet(MessageChannel channel, JsonArray beatMapSetJsonArray) {
         EmbedBuilder embedBuilder = new EmbedBuilder().setColor(new Color(255, 255, 255));
         if (beatMapSetJsonArray == null | beatMapSetJsonArray.isJsonNull()) return;
-
+        
+        beatMapSetJsonArray = sortJsonarray(beatMapSetJsonArray);
         //title setting
         String author = "[BEATMAP SET]\n";
         author += beatMapSetJsonArray.get(0).getAsJsonObject().get("artist").isJsonNull() ? "" : beatMapSetJsonArray.get(0).getAsJsonObject().get("artist").getAsString();
@@ -116,4 +119,24 @@ public class printBeatmap {
 
     }
 
+    JsonArray sortJsonarray(JsonArray jsonArray) {
+        String[] diff = new String[jsonArray.size()];
+        JsonArray jaa = new JsonArray();
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            diff[i] = jsonArray.get(i).getAsJsonObject().get("difficultyrating").getAsString();
+        }
+
+        Arrays.sort(diff);
+        for (int i = 0; i < jsonArray.size(); i++) {
+            for (int j = 0; j < jsonArray.size(); j++) {
+                if (diff[i].equals(jsonArray.get(j).getAsJsonObject().get("difficultyrating").getAsString())) {
+                    jaa.add(jsonArray.get(j).getAsJsonObject());
+                }
+            }
+        }
+        return jaa;
+
+
+    }
 }
