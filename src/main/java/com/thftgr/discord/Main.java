@@ -14,9 +14,7 @@ import java.io.FileReader;
 
 public class Main{
     public static JsonObject settingValue ;
-    public static String commandStartWith;
-    public static int downloadThread = 4;
-    public static String testChannelID = "713597934159003689";
+
 
 
 
@@ -25,10 +23,10 @@ public class Main{
 
         try {
             settingValue = (JsonObject) JsonParser.parseReader(new Gson().newJsonReader(new FileReader("setting/Setting.json")));
-            commandStartWith = settingValue.get("commandStartWith").getAsString();
 
             JDABuilder jb = new JDABuilder();
-            jb.setToken(settingValue.get("token.discord").getAsString());
+            jb.setToken(settingValue.get("discord").getAsJsonObject()
+                    .get("token").getAsString());
             jb.addEventListeners(new EventListener());
             jb.setMaxReconnectDelay(32);
             jb.build();

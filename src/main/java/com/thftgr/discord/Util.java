@@ -83,14 +83,7 @@ public class Util {
         }
     }
 
-    public String GetUTCtime(){
-        TimeZone def = TimeZone.getDefault();
 
-        TimeZone.setDefault(TimeZone.getTimeZone("Etc/UTC"));
-        String dateTime = new java.sql.Date(new Date().getTime()).toString() + " " + new Time(new Date().getTime()).toString();
-        TimeZone.setDefault(def);
-        return dateTime;
-    }
 
 
 }

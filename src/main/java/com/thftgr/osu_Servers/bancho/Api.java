@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Time;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class Api {
 
@@ -18,9 +21,7 @@ public class Api {
         HttpURLConnection httpURLConnection = connectServer("https://osu.ppy.sh/api/" + url + "?" + Parm);
 
         try {
-            String s = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream())).readLine();
-
-            if (!s.equals("[]")) return (JsonArray) JsonParser.parseString(s);
+            return (JsonArray) JsonParser.parseString(new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream())).readLine());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -42,4 +43,6 @@ public class Api {
         return null;
 
     }
+
+
 }

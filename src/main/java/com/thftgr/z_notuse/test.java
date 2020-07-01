@@ -1,12 +1,26 @@
 package com.thftgr.z_notuse;
 
 
+import com.google.gson.JsonArray;
+import com.thftgr.osu_Servers.bancho.Api;
+
+import java.sql.Time;
+import java.util.Date;
+
 public class test {
 
 
     public static void main(String[] args) {
-System.out.println(new com.thftgr.discord.Util().GetUTCtime());
+        System.out.println("statred");
 
+        long delaytime = System.currentTimeMillis() + 5000;
+        while (true) {
+            if (!(delaytime + 5000 < System.currentTimeMillis())) continue;
+            System.out.println("check");
+
+
+            delaytime = System.currentTimeMillis();
+        }
         //System.out.println();
     }
 

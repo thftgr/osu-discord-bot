@@ -109,7 +109,7 @@ public class Message {
         if (NonNull(JO, "creator") != null) {
             sb += " \nby " + (NonNull(JO, "creator"));
         }
-        eb.setAuthor(sb, "https://osu.ppy.sh/s/" + mapSetID, null);
+        eb.setAuthor(sb, "https://osu.ppy.sh/beatmapsets/" + mapSetID, null);
 
 
         eb.setImage("https://b.ppy.sh/thumb/" + mapSetID + "l.jpg");

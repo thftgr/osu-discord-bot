@@ -52,27 +52,29 @@ public class EventListener extends ListenerAdapter {
         if (e.getAuthor().getId().equals(Main.settingValue.get("discord.botOwnerID").getAsString())) {
             new com.thftgr.discord.Private.HiddenCommand().event(e);
         }
-        return;
+//        return;
+
+
+
+
+        if (!Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).isJsonNull()) {
+
+            switch (Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).getAsString()) {
+                case "gatari":
+                    new com.thftgr.osu_Servers.gatari.gatariMain().event(e);
+                    break;
+                case "debian":
+                    new com.thftgr.osu_Servers.Debian.debainMain().event(e);
+                    break;
+
+            }
+
+        }
+        new com.thftgr.osu_Servers.bancho.banchoMain().event(e);
 
 //        String cmd = messageFormChannel.substring(1);
 //        String[] array = cmd.split(" ");
-//
-//
-//        if (!Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).isJsonNull()) {
-//
-//            switch (Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).getAsString()) {
-//                case "gatari":
-//                    new com.thftgr.osu_Servers.gatari.gatariMain().event(e);
-//                    break;
-//                case "debian":
-//                    new com.thftgr.osu_Servers.Debian.debainMain().event(e);
-//                    break;
-//
-//            }
-//
-//        }
-//
-//
+        
 //        switch (array[0]) {
 //            case "h":
 //            case "help":
