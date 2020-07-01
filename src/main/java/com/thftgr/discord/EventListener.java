@@ -49,7 +49,7 @@ public class EventListener extends ListenerAdapter {
         if (messageFormChannel.toLowerCase().equals("owo")) e.getChannel().sendMessage("What's This?").queue();
 
         if (!messageFormChannel.startsWith(Main.settingValue.get("commandStartWith").getAsString())) return;
-        if (e.getAuthor().getId().equals(Main.settingValue.get("discord.botOwnerID").getAsString())) {
+        if (e.getAuthor().getId().equals(Main.settingValue.get("discord").getAsJsonObject().get("botOwnerID").getAsString())) {
             new com.thftgr.discord.Private.HiddenCommand().event(e);
         }
 //        return;
@@ -74,7 +74,7 @@ public class EventListener extends ListenerAdapter {
 
 //        String cmd = messageFormChannel.substring(1);
 //        String[] array = cmd.split(" ");
-        
+
 //        switch (array[0]) {
 //            case "h":
 //            case "help":

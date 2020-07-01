@@ -17,7 +17,7 @@ public class Api {
 
     public JsonArray call(String url, String Parameters) {
 
-        String Parm = "k=" + Main.settingValue.get("token.osu!").getAsString() + Parameters;
+        String Parm = "k=" + Main.settingValue.get("osu!").getAsJsonObject().get("apiKey").getAsString() + Parameters;
         HttpURLConnection httpURLConnection = connectServer("https://osu.ppy.sh/api/" + url + "?" + Parm);
 
         try {

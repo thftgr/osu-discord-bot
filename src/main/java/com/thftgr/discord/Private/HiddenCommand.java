@@ -1,8 +1,5 @@
 package com.thftgr.discord.Private;
 
-import com.thftgr.discord.Main;
-import com.thftgr.discord.ThreadRun;
-import com.thftgr.osu_Servers.bancho.serverThread;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class HiddenCommand {
