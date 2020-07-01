@@ -155,12 +155,7 @@ public class Message {
         }
     }
 
-    void sayEmbed(MessageChannel channel, String msg) {
-        EmbedBuilder eb = new EmbedBuilder();
-        eb.setColor(new Color(255, 255, 255));
-        eb.setDescription(msg);
-        channel.sendMessage(eb.build()).queue();
-    }
+
 
     String approvedStatus(int approvedInt) {
         switch (approvedInt) {

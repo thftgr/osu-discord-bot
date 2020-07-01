@@ -62,7 +62,7 @@ public class EventListener extends ListenerAdapter {
 
 
         //채널 옵션이 있는지. 없으면 기본값 반쵸
-        if (!Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).isJsonNull()) {
+        if (Main.settingValue.get("osu!").getAsJsonObject().get("channelOption").getAsJsonObject().get(e.getChannel().getId()) !=null) {
 
             switch (Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).getAsString()) {
                 case "gatari":
@@ -75,7 +75,7 @@ public class EventListener extends ListenerAdapter {
             }
 
         }
-        new com.thftgr.osu_Servers.bancho.banchoMain().event(e);
+        new EventThread.bancho(e);
 
 //        String cmd = messageFormChannel.substring(1);
 //        String[] array = cmd.split(" ");
