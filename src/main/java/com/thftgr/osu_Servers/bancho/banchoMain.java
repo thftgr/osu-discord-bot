@@ -7,11 +7,10 @@ public class banchoMain {
         String cmd = e.getMessage().getContentRaw().substring(1);
         String[] array = cmd.split(" ");
 
-
         switch (array[0]) {
             case "u":
             case "user":
-                new PrintUser().PrintUser(e.getChannel(), array[1], (array.length > 2) ? array[3] : null );
+                new PrintUser().PrintUser(e.getChannel(), array[1], ((array.length > 2) ? array[2] : null));
                 break;
 
             case "ms":

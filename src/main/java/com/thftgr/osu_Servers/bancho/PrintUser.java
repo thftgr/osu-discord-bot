@@ -8,31 +8,46 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import java.awt.*;
 
 public class PrintUser {
-    void PrintUser(MessageChannel channel,String user,String mode){
-        System.out.println("printuser");
-        String parm = "&u="+user;
-        parm += (mode == null) ? "" : "&m="+mode;
-        JsonArray userInfoJsonArray = new Api().call("get_user",parm);
-        System.out.println(userInfoJsonArray.size());
-        if(userInfoJsonArray.size() == 0){
+    void PrintUser(MessageChannel channel, String user, String mode) {
+        String parm = "&u=" + user;
+        parm += (mode == null) ? "" : "&m=" + mode;
+        JsonArray userInfoJsonArray = new Api().call("get_user", parm);
+
+        if (userInfoJsonArray.size() == 0) {
             channel.sendMessage("Can't find user.").queue();
             return;
         }
+
+        parm = "&u=" + user;
+        parm += "&limit=1";
+
+        JsonArray userBestBeatmap = new Api().call("get_user", parm);
+
         JsonObject userInfoJsonObject = userInfoJsonArray.get(0).getAsJsonObject();
 
-        EmbedBuilder embedBuilder = new EmbedBuilder().setColor(new Color(255,255,255));
+        EmbedBuilder embedBuilder = new EmbedBuilder().setColor(new Color(255, 255, 255));
+
+        //country image setting
+        String countryImage = userInfoJsonObject.get("country").isJsonNull() ? "" : "https://osu.ppy.sh/images/flags/" + userInfoJsonObject.get("country").getAsString() + ".png";
 
         //author setting
         String author = userInfoJsonObject.get("country").isJsonNull() ? "" : userInfoJsonObject.get("country").getAsString() + " ";
-        author += parseMode(mode)+" player ";
-        author += userInfoJsonObject.get("username").isJsonNull() ? "" : userInfoJsonObject.get("username").getAsString()+"'s profile\n";
-        embedBuilder.setAuthor(author,"https://osu.ppy.sh/users/"+userInfoJsonObject.get("user_id").getAsString());
+        author += parseMode(mode) + " player ";
+        author += userInfoJsonObject.get("username").isJsonNull() ? "" : userInfoJsonObject.get("username").getAsString() + "'s profile\n";
+
+        embedBuilder.setAuthor(author, "https://osu.ppy.sh/users/" + userInfoJsonObject.get("user_id").getAsString(), countryImage);
+
+        //thumbnail setting
+        embedBuilder.setThumbnail(userInfoJsonObject.get("user_id").isJsonNull() ? "" : "http://s.ppy.sh/a/" + userInfoJsonObject.get("user_id").getAsString());
 
         //Description setting
-        String description = "";
-
+        String description;
+        description = userInfoJsonObject.get("user_id").isJsonNull() ? "" : "▸User ID : " + userInfoJsonObject.get("user_id").getAsString() + "\n";
+        description += userInfoJsonObject.get("level").isJsonNull() ? "" : "▸Level : " + String.format("%.2f",userInfoJsonObject.get("level").getAsDouble()) + "\n";
+        description += userInfoJsonObject.get("pp_raw").isJsonNull() ? "" : "▸Total PP : " + String.format("%.2f",userInfoJsonObject.get("pp_raw").getAsDouble()) + "\n";
+        description += userInfoJsonObject.get("accuracy").isJsonNull() ? "" : "▸Accuracy : " + String.format("%.2f",userInfoJsonObject.get("accuracy").getAsDouble())  + "%\n";
+        description += userInfoJsonObject.get("playcount").isJsonNull() ? "" : "▸Playcount : " + userInfoJsonObject.get("playcount").getAsString() + "\n";
         embedBuilder.setDescription(description);
-
 
 
         channel.sendMessage(embedBuilder.build()).queue();
@@ -40,10 +55,10 @@ public class PrintUser {
 
     String parseMode(String mods) {
 
-        if(mods == null) return "Standard";
-        if(mods.equals("1")) return "Taiko";
-        if(mods.equals("2")) return "Catch the beat";
-        if(mods.equals("3")) return "Mania";
+        if (mods == null) return "Standard";
+        if (mods.equals("1")) return "Taiko";
+        if (mods.equals("2")) return "Catch the beat";
+        if (mods.equals("3")) return "Mania";
         return "Standard";
     }
 
