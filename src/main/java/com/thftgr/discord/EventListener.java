@@ -75,7 +75,9 @@ public class EventListener extends ListenerAdapter {
             }
 
         }
-        new EventThread.bancho(e);
+
+        new Thread(new EventThread.bancho(e)).start();
+
 
 //        String cmd = messageFormChannel.substring(1);
 //        String[] array = cmd.split(" ");

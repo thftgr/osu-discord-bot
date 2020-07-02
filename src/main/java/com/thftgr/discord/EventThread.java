@@ -11,10 +11,10 @@ public class EventThread {
 
         public bancho(MessageReceivedEvent e) {
             this.e = e;
-
         }
 
         public void run() {
+
             new com.thftgr.osu_Servers.bancho.banchoMain().event(e);
         }
 

@@ -19,14 +19,14 @@ public class Api {
 
         String Parm = "k=" + Main.settingValue.get("osu!").getAsJsonObject().get("apiKey").getAsString() + Parameters;
         HttpURLConnection httpURLConnection = connectServer("https://osu.ppy.sh/api/" + url + "?" + Parm);
-
+        JsonArray userInfoJsonArray = (JsonArray) JsonParser.parseString("[]");
         try {
-            return (JsonArray) JsonParser.parseString(new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream())).readLine());
+            userInfoJsonArray = (JsonArray) JsonParser.parseString(new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream())).readLine());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
-        return null;
+        return userInfoJsonArray;
     }
 
     HttpURLConnection connectServer(String urlAndParm) {
@@ -43,6 +43,9 @@ public class Api {
         return null;
 
     }
+
+
+
 
 
 }
