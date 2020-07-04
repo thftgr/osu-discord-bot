@@ -46,8 +46,6 @@ public class Message {
 
         MessageBuilder mb = new MessageBuilder();
 
-
-
         EmbedBuilder eb = new EmbedBuilder().setColor(new Color(255, 255, 255));
 
         mb.mapSetJsonArray = new WebApi().call("get_beatmaps", "&b=" + mapID);

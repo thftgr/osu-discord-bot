@@ -35,6 +35,7 @@ public class EventListener extends ListenerAdapter {
         super.onReady(event);
         //new serverThread(new ThreadRun.rankWatcher()).start();
         mainJda = event.getJDA();
+        new Thread(new EventThread.banchoRankedMapWhatcher()).start();
 
     }
 

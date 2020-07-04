@@ -11,12 +11,6 @@ import java.util.TimeZone;
 
 public class Util {
 
-
-
-
-
-
-
     String grabUsername(String str) {
 
         int lineCnt = 0;

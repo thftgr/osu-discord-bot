@@ -19,4 +19,14 @@ public class EventThread {
         }
 
     }
+
+    public static class banchoRankedMapWhatcher implements Runnable {
+
+        public void run() {
+            new com.thftgr.osu_Servers.bancho.NewRankedMapWatcher().RankedMapWatcher();
+        }
+
+    }
+
+
 }

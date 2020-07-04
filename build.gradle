@@ -7,8 +7,6 @@ mainClassName = 'com.thftgr.bot.Main'
 
 version '1.0'
 
-sourceCompatibility = targetCompatibility = 1.8
-
 repositories {
     jcenter()
 

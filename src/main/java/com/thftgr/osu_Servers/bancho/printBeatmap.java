@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.thftgr.discord.EventListener;
 import com.thftgr.discord.Util;
+import com.thftgr.webApi.WebApi;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -14,10 +15,17 @@ import java.util.Arrays;
 public class printBeatmap {
     JDA jda = EventListener.mainJda;
 
-    void beatMapSet(MessageChannel channel, JsonArray beatMapSetJsonArray) {
+    public void beatMapSet(MessageChannel channel, String setID, String mode) {
+
+        System.out.println("asd");
+        String parm = "&s=" + setID;
+        parm += mode == null ? "" : "&m=" + mode;
+        JsonArray beatMapSetJsonArray = new Api().call("get_beatmaps", parm);
+
+
         EmbedBuilder embedBuilder = new EmbedBuilder().setColor(new Color(255, 255, 255));
         if (beatMapSetJsonArray == null | beatMapSetJsonArray.isJsonNull()) return;
-        
+
         beatMapSetJsonArray = sortJsonarray(beatMapSetJsonArray);
         //title setting
         String author = "[BEATMAP SET]\n";
@@ -83,6 +91,7 @@ public class printBeatmap {
         footer += beatMapLastDate;
         footer += " UTC +0";
         embedBuilder.setFooter(footer);
+        channel.sendMessage(embedBuilder.build()).queue();
 
 
     }

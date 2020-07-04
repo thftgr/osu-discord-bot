@@ -20,8 +20,8 @@ public class PrintUser {
 
         parm = "&u=" + user;
         parm += "&limit=1";
-        parm +=  mode ==null ? "" : "&m="+mode;
-        
+        parm += mode == null ? "" : "&m=" + mode;
+
         JsonArray userBestBeatmap = new Api().call("get_user_best", parm);
 
         //get user Info
@@ -46,15 +46,15 @@ public class PrintUser {
         //Description setting
         String description = "";
         description += userInfoJsonObject.get("user_id").isJsonNull() ? "" : "▸User ID : " + userInfoJsonObject.get("user_id").getAsString() + "\n";
-        description += userInfoJsonObject.get("level").isJsonNull() ? "" : "▸Level : " + String.format("%.2f",userInfoJsonObject.get("level").getAsDouble()) + "\n";
-        description += userInfoJsonObject.get("pp_raw").isJsonNull() ? "" : "▸Total PP : " + String.format("%.2f",userInfoJsonObject.get("pp_raw").getAsDouble()) + "\n";
-        description += userBestBeatmapJsonObject.get("pp").isJsonNull() | userBestBeatmapJsonObject.get("pp") == null ? "" : "▸Best_pp : " + String.format("%.2f",userBestBeatmapJsonObject.get("pp").getAsDouble()) + "\n";
-        description += userInfoJsonObject.get("accuracy").isJsonNull() ? "" : "▸Accuracy : " + String.format("%.2f",userInfoJsonObject.get("accuracy").getAsDouble())  + "%\n";
+        description += userInfoJsonObject.get("level").isJsonNull() ? "" : "▸Level : " + String.format("%.2f", userInfoJsonObject.get("level").getAsDouble()) + "\n";
+        description += userInfoJsonObject.get("pp_raw").isJsonNull() ? "" : "▸Total PP : " + String.format("%.2f", userInfoJsonObject.get("pp_raw").getAsDouble()) + "\n";
+        description += userBestBeatmapJsonObject.get("pp").isJsonNull() | userBestBeatmapJsonObject.get("pp") == null ? "" : "▸Best_pp : " + String.format("%.2f", userBestBeatmapJsonObject.get("pp").getAsDouble()) + "\n";
+        description += userInfoJsonObject.get("accuracy").isJsonNull() ? "" : "▸Accuracy : " + String.format("%.2f", userInfoJsonObject.get("accuracy").getAsDouble()) + "%\n";
         description += userInfoJsonObject.get("pp_rank").isJsonNull() ? "" : "▸Rank : #" + userInfoJsonObject.get("pp_rank").getAsString() + "\n";
         description += userInfoJsonObject.get("pp_country_rank").isJsonNull() ? "" : "▸CountryRank : #" + userInfoJsonObject.get("pp_country_rank").getAsString() + "\n";
         description += userInfoJsonObject.get("playcount").isJsonNull() ? "" : "▸Playcount : " + userInfoJsonObject.get("playcount").getAsString() + "\n";
         description += userInfoJsonObject.get("join_date").isJsonNull() ? "" : "▸Join Date : " + userInfoJsonObject.get("join_date").getAsString() + "\n";
-        if(!(userBestBeatmap.size() == 0)){
+        if (!(userBestBeatmap.size() == 0)) {
             int playtime_s = Integer.parseInt(userInfoJsonObject.get("total_seconds_played").getAsString()), playtime_m = playtime_s / 60, playtime_h = (playtime_m / 60), playtime_d = (playtime_h / 24);
             description += "▸Playtime : " + (playtime_d + "d " + (playtime_h - (playtime_d * 24)) + "h " + (playtime_m - (playtime_h * 60)) + "m " + (playtime_s - (playtime_m * 60)) + "s") + "\n";
         }
@@ -72,5 +72,6 @@ public class PrintUser {
         if (mods.equals("3")) return "[Mania]";
         return "Standard";
     }
+
 
 }
