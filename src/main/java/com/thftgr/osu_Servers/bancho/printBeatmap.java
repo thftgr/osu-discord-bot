@@ -2,18 +2,91 @@ package com.thftgr.osu_Servers.bancho;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.thftgr.discord.EventListener;
-import com.thftgr.discord.Util;
 import com.thftgr.webApi.WebApi;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.awt.*;
 import java.util.Arrays;
 
 public class printBeatmap {
-    JDA jda = EventListener.mainJda;
+
+
+    public void beatmap(MessageChannel channel, String mapID, String mode) {
+
+        EmbedBuilder embedBuilder = new EmbedBuilder().setColor(new Color(255, 255, 255));
+        String parm = "&b=" + mapID;
+        parm += mode == null ? "" : "&m=" + mode;
+        JsonArray mapJsonArray = new Api().call("get_beatmaps", parm);
+
+        if (mapJsonArray.size() == 0) {// 맵이 없는경우
+            channel.sendMessage(embedBuilder.setDescription("😢 BeatmapDecoder Not Found! Check mapID").build()).queue();
+            return;
+        }
+
+        JsonObject mapJsonObject = mapJsonArray.get(0).getAsJsonObject();
+
+        //title setting
+        String author = "[BEATMAP]\n";
+        author += mapJsonObject.get("artist").isJsonNull() ? "" : mapJsonObject.get("artist").getAsString();
+        author += " - ";
+        author += mapJsonObject.get("title").isJsonNull() ? "" : mapJsonObject.get("title").getAsString();
+        author += mapJsonObject.get("creator").isJsonNull() ? "" : "by " + mapJsonObject.get("creator").getAsString();
+        embedBuilder.setAuthor(author, "https://osu.ppy.sh/beatmapsets/" + mapJsonObject.get("beatmapset_id").getAsString(), null);
+
+        int totaltime = mapJsonObject.get("total_length").isJsonNull() ? 0 : mapJsonObject.get("total_length").getAsInt();
+
+        String msg = "";
+        String BloodcatLink = new WebApi().getBloodcatPriviewLink(mapJsonObject.get("beatmap_id").getAsString());
+        JsonObject mapData = new com.thftgr.osuPerformance.PerfomanceMain().ppCalc(mapJsonArray);
+
+        msg += BloodcatLink == null ? "" : "▸[Preview](" + BloodcatLink + ")\n";
+
+        msg += mapJsonObject.get("mode").isJsonNull() ? "" : "▸Mode: " + modeParse(mapJsonObject.get("mode").getAsInt()) + "\n";
+        msg += "▸PlayTime: " + (totaltime / 60) + "m " + (totaltime - ((totaltime / 60) * 60)) + "s ";
+        msg += mapJsonObject.get("bpm").isJsonNull() ? "" : "▸BPM: " + mapJsonObject.get("bpm").getAsString() + "\n";
+        msg += mapJsonObject.get("version").isJsonNull() ? "" : "▸Map Version: " + mapJsonObject.get("version").getAsString() + "\n";
+        msg += mapJsonObject.get("difficultyrating").isJsonNull() ? "" : "▸Difficulty: " + String.format("%.2f", mapJsonObject.get("difficultyrating").getAsFloat()) + "★\n";
+        msg += mapJsonObject.get("max_combo").isJsonNull() ? "" : "▸Max Combo: x" + mapJsonObject.get("max_combo").getAsString() + "\n";
+        msg += mapJsonObject.get("diff_approach").isJsonNull() ? "" : "▸AR: " + mapJsonObject.get("diff_approach").getAsString() + " ";
+        msg += mapJsonObject.get("diff_overall").isJsonNull() ? "" : "▸OD: " + mapJsonObject.get("diff_overall").getAsString() + " ";
+        msg += mapJsonObject.get("diff_drain").isJsonNull() ? "" : "▸HP: " + mapJsonObject.get("diff_drain").getAsString() + " ";
+        msg += mapJsonObject.get("diff_size").isJsonNull() ? "" : "▸CS: " + mapJsonObject.get("diff_size").getAsString() + " \n";
+        msg += mapJsonObject.get("mode").getAsInt() == 3 ? "▸KEY " + mapJsonObject.get("diff_size").getAsString() + "k" : "";
+
+
+        msg += "▸PP: " + mapData.get(mapJsonObject.get("version").getAsString()).getAsString();
+
+
+        embedBuilder.setDescription(msg);
+        embedBuilder.setImage("https://b.ppy.sh/thumb/" + mapJsonObject.get("beatmapset_id").getAsString() + "l.jpg");
+
+        //String beatmap Last updated Data
+        String beatMapLastDate;
+        if (!mapJsonObject.get("approved_date").isJsonNull()) {
+            beatMapLastDate = mapJsonObject.get("approved_date").getAsString();
+
+        } else if (!mapJsonObject.get("last_update").isJsonNull()) {
+            beatMapLastDate = mapJsonObject.get("last_update").getAsString();
+
+        } else {
+            beatMapLastDate = mapJsonObject.get("submit_date").getAsString();
+        }
+
+        //footer setting
+        String footer = "❤  ";
+        footer += mapJsonObject.get("favourite_count").isJsonNull() ? "" : mapJsonObject.get("favourite_count").getAsString();
+        footer += "  |  ";
+        footer += approvedStatus(mapJsonObject.get("approved").isJsonNull() ? 5 : mapJsonObject.get("approved").getAsInt());
+        footer += "  |  ";
+        footer += beatMapLastDate;
+        footer += " UTC +0";
+        embedBuilder.setFooter(footer);
+
+        channel.sendMessage(embedBuilder.build()).queue();
+
+
+    }
 
     public void beatMapSet(MessageChannel channel, String setID, String mode, String title) {
 
@@ -27,8 +100,9 @@ public class printBeatmap {
         if (beatMapSetJsonArray == null | beatMapSetJsonArray.isJsonNull()) return;
 
         beatMapSetJsonArray = sortJsonarray(beatMapSetJsonArray);
+
         //title setting
-        String author = title ==null ? "[BEATMAP SET]\n" : title+"\n";
+        String author = title == null ? "[BEATMAP SET]\n" : title + "\n";
         author += beatMapSetJsonArray.get(0).getAsJsonObject().get("artist").isJsonNull() ? "" : beatMapSetJsonArray.get(0).getAsJsonObject().get("artist").getAsString();
         author += " - ";
         author += beatMapSetJsonArray.get(0).getAsJsonObject().get("title").isJsonNull() ? "" : beatMapSetJsonArray.get(0).getAsJsonObject().get("title").getAsString();
@@ -37,8 +111,6 @@ public class printBeatmap {
 
 
         //Description setting
-
-
         String[] modeList = {"", "", "", "", ""};
         int playtime = avgPlaytime(beatMapSetJsonArray);
         String beatMapInfo = "▸PlayTime AVG : " + (playtime / 60) + "m " + (playtime - ((playtime / 60) * 60)) + "s";
@@ -147,5 +219,24 @@ public class printBeatmap {
         return jaa;
 
 
+    }
+
+    String modeParse(int modeInt) {
+        switch (modeInt) {
+            case 0:
+                return "Standard";
+
+            case 1:
+                return "Taiko";
+
+            case 2:
+                return "Catch The Beat";
+
+            case 3:
+                return "Mania";
+
+            default:
+                return "Standard";
+        }
     }
 }

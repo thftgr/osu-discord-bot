@@ -8,11 +8,25 @@ public class banchoMain {
         String[] array = cmd.split(" ");
 
         switch (array[0]) {
+            case "h":
+            case "help":
+                String helpMessage = ">>> ";
+                helpMessage +="!user, u [username/userID] [mode]\n -username have space? Between \". ex) !user \"O S U\"\n\n";
+                helpMessage +="!mapset, ms [mapSetID] [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!Mania ]\n\n";
+                helpMessage +="!map, m [mapID] [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!Mania ]\n\n";
+                e.getChannel().sendMessage(helpMessage).queue();
+
+
+
+
+                break;
+
+
             case "u":
             case "user":
                 if (array.length < 2) {
-                    e.getChannel().sendMessage(">>> !user, u [username/userID] [mode]\n username have space? Between \". ex) !user \"O S U\"\n\n").queue();
-                    return;
+                    e.getChannel().sendMessage(">>> !user, u [username/userID] [mode]\n username have space? Between \". ex) !user \"O S U\"").queue();
+                    break;
                 }
                 new PrintUser().PrintUser(e.getChannel(), cmd.contains("\"") ? parseSpace(cmd) : array[1], ((array.length > 2) ? array[2] : null));
                 break;
@@ -23,7 +37,16 @@ public class banchoMain {
                     e.getChannel().sendMessage(" >>> !mapset, ms [mapSetID] [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!Mania ]").queue();
                     return;
                 }
-                new printBeatmap().beatMapSet(e.getChannel(), array[1], ((array.length > 2) ? array[2] : null),"[NEW_RANKED_MAPSET]");
+                new printBeatmap().beatMapSet(e.getChannel(), array[1], ((array.length > 2) ? array[2] : null),"[MAPSET]");
+
+                break;
+            case "m":
+            case "map":
+                if (array.length < 2) {
+                    e.getChannel().sendMessage(" >>> !map, m [mapID] [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!Mania ]").queue();
+                    return;
+                }
+                new printBeatmap().beatmap(e.getChannel(), array[1], ((array.length > 2) ? array[2] : null));
 
                 break;
 
