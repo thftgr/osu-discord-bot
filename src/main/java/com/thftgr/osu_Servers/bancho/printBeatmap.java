@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class printBeatmap {
     JDA jda = EventListener.mainJda;
 
-    public void beatMapSet(MessageChannel channel, String setID, String mode) {
+    public void beatMapSet(MessageChannel channel, String setID, String mode, String title) {
 
         System.out.println("asd");
         String parm = "&s=" + setID;
@@ -28,7 +28,7 @@ public class printBeatmap {
 
         beatMapSetJsonArray = sortJsonarray(beatMapSetJsonArray);
         //title setting
-        String author = "[BEATMAP SET]\n";
+        String author = title ==null ? "[BEATMAP SET]\n" : title+"\n";
         author += beatMapSetJsonArray.get(0).getAsJsonObject().get("artist").isJsonNull() ? "" : beatMapSetJsonArray.get(0).getAsJsonObject().get("artist").getAsString();
         author += " - ";
         author += beatMapSetJsonArray.get(0).getAsJsonObject().get("title").isJsonNull() ? "" : beatMapSetJsonArray.get(0).getAsJsonObject().get("title").getAsString();

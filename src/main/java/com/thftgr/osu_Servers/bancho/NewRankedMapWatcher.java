@@ -24,13 +24,10 @@ public class NewRankedMapWatcher {
             if ((delaytime + 60000 > System.currentTimeMillis())) continue;
             //60초에 1번씩 api 불러서 추가된 맵 print
             String parm = "&since=" + Main.settingValue.get("osu!").getAsJsonObject().get("lastRankedMapCheck").getAsString();
-//            String parm = "&since=2020-07-02 15:53:11";
+//            String parm = "&since=2020-07-04 14:19:38";
             JsonArray newRankedBeatmaps = new Api().call("get_beatmaps", parm);
             delaytime = System.currentTimeMillis();
-            System.out.println("====================");
-            System.out.println("check new Ranked Map");
-            System.out.println(newRankedBeatmaps.toString());
-            System.out.println("====================");
+
 
             if (newRankedBeatmaps.size() == 0) continue;
             JsonArray rnakedMapList = new JsonArray();
@@ -39,16 +36,15 @@ public class NewRankedMapWatcher {
                 for (int j = 0; j < rnakedMapList.size(); j++) {
                     check = rnakedMapList.get(j).getAsInt() == newRankedBeatmaps.get(i).getAsJsonObject().get("beatmapset_id").getAsInt();
                 }
-                if (!check)
+                if ((!check) & (newRankedBeatmaps.get(i).getAsJsonObject().get("approved").getAsInt() == 1)) {
                     rnakedMapList.add(newRankedBeatmaps.get(i).getAsJsonObject().get("beatmapset_id").getAsString());
+                }
             }
 
             for (int i = 0; i < rnakedMapList.size(); i++) {
-                for (int j = 0; j <Main.settingValue.get("osu!").getAsJsonObject().get("rank_map_notice").getAsJsonArray().size() ; j++) {
-                    System.out.println(rnakedMapList.size());
+                for (int j = 0; j < Main.settingValue.get("osu!").getAsJsonObject().get("rank_map_notice").getAsJsonArray().size(); j++) {
                     MessageChannel messageChannel = EventListener.mainJda.getTextChannelById(Main.settingValue.get("osu!").getAsJsonObject().get("rank_map_notice").getAsJsonArray().get(j).getAsString());
-                    new printBeatmap().beatMapSet(messageChannel,rnakedMapList.get(i).getAsString(),null);
-
+                    new printBeatmap().beatMapSet(messageChannel, rnakedMapList.get(i).getAsString(), null, "[NEW_RANKED_MAPSET]");
                 }
 
                 //랭맵 출력
@@ -58,6 +54,7 @@ public class NewRankedMapWatcher {
             Main.settingValue.get("osu!").getAsJsonObject().addProperty("lastRankedMapCheck", GetUTCtime());
             settingSave();
         }
+
     }
 
     String GetUTCtime() {

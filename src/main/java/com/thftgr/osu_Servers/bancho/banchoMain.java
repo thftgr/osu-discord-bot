@@ -23,7 +23,7 @@ public class banchoMain {
                     e.getChannel().sendMessage(" >>> !mapset, ms [mapSetID] [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!Mania ]").queue();
                     return;
                 }
-                new printBeatmap().beatMapSet(e.getChannel(), array[1], ((array.length > 2) ? array[2] : null));
+                new printBeatmap().beatMapSet(e.getChannel(), array[1], ((array.length > 2) ? array[2] : null),"[NEW_RANKED_MAPSET]");
 
                 break;
 
