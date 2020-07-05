@@ -3,14 +3,12 @@ package com.thftgr.osu_Servers.bancho;
 import com.google.gson.JsonArray;
 import com.thftgr.discord.EventListener;
 import com.thftgr.discord.Main;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Time;
 import java.util.Date;
-import java.util.Map;
 import java.util.TimeZone;
 
 public class NewRankedMapWatcher {

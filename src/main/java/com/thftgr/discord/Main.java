@@ -12,14 +12,11 @@ import java.io.FileReader;
 //https://discordapp.com/oauth2/authorize?client_id=706888597147615311&scope=bot
 
 
-public class Main{
-    public static JsonObject settingValue ;
+public class Main {
+    public static JsonObject settingValue;
 
 
-
-
-
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         try {
             settingValue = (JsonObject) JsonParser.parseReader(new Gson().newJsonReader(new FileReader("setting/Setting.json")));
@@ -35,9 +32,6 @@ public class Main{
             System.out.println(e);
         }
     }
-
-
-
 
 
 }

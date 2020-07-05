@@ -3,7 +3,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '4.0.4'
 }
 
-mainClassName = 'com.thftgr.bot.Main'
+mainClassName = 'com.thftgr.discord.Main'
 
 version '1.0'
 
@@ -38,6 +38,11 @@ dependencies {
 //    compile 'io.vertx:vertx-web-api-service:3.9.1'
 //    compile 'org.openpnp:opencv:4.3.0-1'
 //    compile 'org.tensorflow:tensorflow:1.14.0'
+
+// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
+
+
 
 }
 

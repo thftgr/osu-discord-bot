@@ -15,7 +15,6 @@ public class BeatmapDownloader {
 
     public void downloadBeatmap(MessageChannel channel, int mapStart, int maplast) {
 
-
         if (maplast == 0) {
             download(channel, mapStart);
         } else if (maplast - mapStart < 24) {
@@ -48,8 +47,6 @@ public class BeatmapDownloader {
             if (mapIsGraveyard(beatmapSetJsonArray)) continue;
 
             if ((beatmapDownloadUrl = getBeatmapSetDownloadLink(beatmapSetJsonArray)) == null) continue;
-
-            //System.out.println(i + " : " + beatmapDownloadUrl);
 
             new WebApi().download(beatmapDownloadUrl, getBeatmapFilename(beatmapSetJsonArray));
         }

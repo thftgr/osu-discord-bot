@@ -11,14 +11,13 @@ public class banchoMain {
             case "h":
             case "help":
                 String helpMessage = ">>> ";
-                helpMessage +="!user, u [username/userID] [mode]\n -username have space? Between \". ex) !user \"O S U\"\n\n";
+                helpMessage +="!user, u [username/userID] [mode]\n";
+                helpMessage +="> username have space? Between \". ex) !user \"O S U\"\n\n";
                 helpMessage +="!mapset, ms [mapSetID] [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!Mania ]\n\n";
                 helpMessage +="!map, m [mapID] [mode: 0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!Mania ]\n\n";
+                helpMessage +="!rank_map_notice, rmn Set this channel to new Ranked map notice\n";
+                helpMessage +="> This command is only available to the server owner.\n\n";
                 e.getChannel().sendMessage(helpMessage).queue();
-
-
-
-
                 break;
 
 
@@ -47,13 +46,8 @@ public class banchoMain {
                     return;
                 }
                 new printBeatmap().beatmap(e.getChannel(), array[1], ((array.length > 2) ? array[2] : null));
-
                 break;
-
-
         }
-
-
     }
 
     String parseSpace(String data) {

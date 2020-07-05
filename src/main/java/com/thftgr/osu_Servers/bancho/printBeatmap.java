@@ -20,7 +20,7 @@ public class printBeatmap {
         JsonArray mapJsonArray = new Api().call("get_beatmaps", parm);
 
         if (mapJsonArray.size() == 0) {// 맵이 없는경우
-            channel.sendMessage(embedBuilder.setDescription("😢 BeatmapDecoder Not Found! Check mapID").build()).queue();
+            channel.sendMessage(embedBuilder.setDescription("😢 Beatmap Not Found! Check mapID").build()).queue();
             return;
         }
 
@@ -40,8 +40,14 @@ public class printBeatmap {
         String BloodcatLink = new WebApi().getBloodcatPriviewLink(mapJsonObject.get("beatmap_id").getAsString());
         JsonObject mapData = new com.thftgr.osuPerformance.PerfomanceMain().ppCalc(mapJsonArray);
 
-        msg += BloodcatLink == null ? "" : "▸[Preview](" + BloodcatLink + ")\n";
+        msg += "▸Download: ";
+        msg += "[ [Bancho] ](https://osu.ppy.sh/beatmapsets/"+mapJsonObject.get("beatmapset_id").getAsString()+"/download)";
+        msg += "  |  ";
+        msg += "[ [BloodCat] ](https://bloodcat.com/osu/s/"+mapJsonObject.get("beatmapset_id").getAsString()+")";
+        msg += "  |  ";
+        msg += "[ [Nerina] ](https://nerina.pw/d/"+mapJsonObject.get("beatmapset_id").getAsString()+")\n";
 
+        msg += BloodcatLink == null ? "" : "▸[Preview](" + BloodcatLink + ")\n";
         msg += mapJsonObject.get("mode").isJsonNull() ? "" : "▸Mode: " + modeParse(mapJsonObject.get("mode").getAsInt()) + "\n";
         msg += "▸PlayTime: " + (totaltime / 60) + "m " + (totaltime - ((totaltime / 60) * 60)) + "s ";
         msg += mapJsonObject.get("bpm").isJsonNull() ? "" : "▸BPM: " + mapJsonObject.get("bpm").getAsString() + "\n";
@@ -73,7 +79,7 @@ public class printBeatmap {
             beatMapLastDate = mapJsonObject.get("submit_date").getAsString();
         }
 
-        //footer setting
+        //footer map info setting
         String footer = "❤  ";
         footer += mapJsonObject.get("favourite_count").isJsonNull() ? "" : mapJsonObject.get("favourite_count").getAsString();
         footer += "  |  ";
@@ -90,31 +96,44 @@ public class printBeatmap {
 
     public void beatMapSet(MessageChannel channel, String setID, String mode, String title) {
 
-        System.out.println("asd");
         String parm = "&s=" + setID;
         parm += mode == null ? "" : "&m=" + mode;
         JsonArray beatMapSetJsonArray = new Api().call("get_beatmaps", parm);
 
 
         EmbedBuilder embedBuilder = new EmbedBuilder().setColor(new Color(255, 255, 255));
-        if (beatMapSetJsonArray == null | beatMapSetJsonArray.isJsonNull()) return;
+        if (beatMapSetJsonArray.size() == 0) {
+            channel.sendMessage(embedBuilder.setDescription("😢 BeatmapSet Not Found! Check mapSetID").build()).queue();
+            return;
+        }
+        JsonObject mapJsonObject = beatMapSetJsonArray.get(0).getAsJsonObject();
 
         beatMapSetJsonArray = sortJsonarray(beatMapSetJsonArray);
 
         //title setting
         String author = title == null ? "[BEATMAP SET]\n" : title + "\n";
-        author += beatMapSetJsonArray.get(0).getAsJsonObject().get("artist").isJsonNull() ? "" : beatMapSetJsonArray.get(0).getAsJsonObject().get("artist").getAsString();
+        author += mapJsonObject.get("artist").isJsonNull() ? "" : mapJsonObject.get("artist").getAsString();
         author += " - ";
-        author += beatMapSetJsonArray.get(0).getAsJsonObject().get("title").isJsonNull() ? "" : beatMapSetJsonArray.get(0).getAsJsonObject().get("title").getAsString();
-        author += beatMapSetJsonArray.get(0).getAsJsonObject().get("creator").isJsonNull() ? "" : "by " + beatMapSetJsonArray.get(0).getAsJsonObject().get("creator").getAsString();
-        embedBuilder.setAuthor(author, "https://osu.ppy.sh/beatmapsets/" + beatMapSetJsonArray.get(0).getAsJsonObject().get("beatmapset_id").getAsString(), null);
+        author += mapJsonObject.get("title").isJsonNull() ? "" : mapJsonObject.get("title").getAsString();
+        author += mapJsonObject.get("creator").isJsonNull() ? "" : "by " + mapJsonObject.get("creator").getAsString();
+        embedBuilder.setAuthor(author, "https://osu.ppy.sh/beatmapsets/" + mapJsonObject.get("beatmapset_id").getAsString(), null);
 
 
         //Description setting
         String[] modeList = {"", "", "", "", ""};
         int playtime = avgPlaytime(beatMapSetJsonArray);
-        String beatMapInfo = "▸PlayTime AVG : " + (playtime / 60) + "m " + (playtime - ((playtime / 60) * 60)) + "s";
-        beatMapInfo += beatMapSetJsonArray.get(0).getAsJsonObject().get("bpm").isJsonNull() ? "" : "▸BPM: " + beatMapSetJsonArray.get(0).getAsJsonObject().get("bpm").getAsString() + "\n";
+        String beatMapInfo = "";
+        beatMapInfo += "▸Download: ";
+        beatMapInfo += "[ [Bancho] ](https://osu.ppy.sh/beatmapsets/"+mapJsonObject.get("beatmapset_id").getAsString()+"/download)";
+        beatMapInfo += "  |  ";
+        beatMapInfo += "[ [BloodCat] ](https://bloodcat.com/osu/s/"+mapJsonObject.get("beatmapset_id").getAsString()+")";
+        beatMapInfo += "  |  ";
+        beatMapInfo += "[ [Nerina] ](https://nerina.pw/d/"+mapJsonObject.get("beatmapset_id").getAsString()+")\n";
+
+
+
+        beatMapInfo += "▸PlayTime AVG : " + (playtime / 60) + "m " + (playtime - ((playtime / 60) * 60)) + "s";
+        beatMapInfo += mapJsonObject.get("bpm").isJsonNull() ? "" : "▸BPM: " + mapJsonObject.get("bpm").getAsString() + "\n";
 
         JsonObject performance = new com.thftgr.osuPerformance.PerfomanceMain().ppCalc(beatMapSetJsonArray);
 
@@ -140,25 +159,25 @@ public class printBeatmap {
         embedBuilder.setDescription(beatMapSetInfo);
 
         //beatmap image setting
-        embedBuilder.setImage("https://b.ppy.sh/thumb/" + beatMapSetJsonArray.get(0).getAsJsonObject().get("beatmapset_id").getAsString() + "l.jpg");
+        embedBuilder.setImage("https://b.ppy.sh/thumb/" + mapJsonObject.get("beatmapset_id").getAsString() + "l.jpg");
 
         //String beatmap Last updated Data
         String beatMapLastDate;
-        if (!beatMapSetJsonArray.get(0).getAsJsonObject().get("approved_date").isJsonNull()) {
-            beatMapLastDate = beatMapSetJsonArray.get(0).getAsJsonObject().get("approved_date").getAsString();
+        if (!mapJsonObject.get("approved_date").isJsonNull()) {
+            beatMapLastDate = mapJsonObject.get("approved_date").getAsString();
 
-        } else if (!beatMapSetJsonArray.get(0).getAsJsonObject().get("last_update").isJsonNull()) {
-            beatMapLastDate = beatMapSetJsonArray.get(0).getAsJsonObject().get("last_update").getAsString();
+        } else if (!mapJsonObject.get("last_update").isJsonNull()) {
+            beatMapLastDate = mapJsonObject.get("last_update").getAsString();
 
         } else {
-            beatMapLastDate = beatMapSetJsonArray.get(0).getAsJsonObject().get("submit_date").getAsString();
+            beatMapLastDate = mapJsonObject.get("submit_date").getAsString();
         }
 
         //footer setting
         String footer = "❤  ";
-        footer += beatMapSetJsonArray.get(0).getAsJsonObject().get("favourite_count").isJsonNull() ? "" : beatMapSetJsonArray.get(0).getAsJsonObject().get("favourite_count").getAsString();
+        footer += mapJsonObject.get("favourite_count").isJsonNull() ? "" : mapJsonObject.get("favourite_count").getAsString();
         footer += "  |  ";
-        footer += approvedStatus(beatMapSetJsonArray.get(0).getAsJsonObject().get("approved").isJsonNull() ? 5 : beatMapSetJsonArray.get(0).getAsJsonObject().get("approved").getAsInt());
+        footer += approvedStatus(mapJsonObject.get("approved").isJsonNull() ? 5 : mapJsonObject.get("approved").getAsInt());
         footer += "  |  ";
         footer += beatMapLastDate;
         footer += " UTC +0";
