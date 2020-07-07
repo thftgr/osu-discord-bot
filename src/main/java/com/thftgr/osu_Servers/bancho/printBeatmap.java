@@ -31,7 +31,7 @@ public class printBeatmap {
         author += mapJsonObject.get("artist").isJsonNull() ? "" : mapJsonObject.get("artist").getAsString();
         author += " - ";
         author += mapJsonObject.get("title").isJsonNull() ? "" : mapJsonObject.get("title").getAsString();
-        author += mapJsonObject.get("creator").isJsonNull() ? "" : "by " + mapJsonObject.get("creator").getAsString();
+        author += mapJsonObject.get("creator").isJsonNull() ? "" : "\nby " + mapJsonObject.get("creator").getAsString();
         embedBuilder.setAuthor(author, "https://osu.ppy.sh/beatmapsets/" + mapJsonObject.get("beatmapset_id").getAsString(), null);
 
         int totaltime = mapJsonObject.get("total_length").isJsonNull() ? 0 : mapJsonObject.get("total_length").getAsInt();
@@ -115,7 +115,7 @@ public class printBeatmap {
         author += mapJsonObject.get("artist").isJsonNull() ? "" : mapJsonObject.get("artist").getAsString();
         author += " - ";
         author += mapJsonObject.get("title").isJsonNull() ? "" : mapJsonObject.get("title").getAsString();
-        author += mapJsonObject.get("creator").isJsonNull() ? "" : "by " + mapJsonObject.get("creator").getAsString();
+        author += mapJsonObject.get("creator").isJsonNull() ? "" : "\nby " + mapJsonObject.get("creator").getAsString();
         embedBuilder.setAuthor(author, "https://osu.ppy.sh/beatmapsets/" + mapJsonObject.get("beatmapset_id").getAsString(), null);
 
 
