@@ -48,6 +48,8 @@ public class EventListener extends ListenerAdapter {
         }
 
 
+
+
         //메세지가 커맨드가 맞는가.
         if (!e.getMessage().getContentRaw().startsWith(Main.settingValue.get("commandStartWith").getAsString())) return;
 
@@ -63,21 +65,33 @@ public class EventListener extends ListenerAdapter {
 
 
         //채널 옵션이 있는지. 없으면 기본값 반쵸
-        if (Main.settingValue.get("osu!").getAsJsonObject().get("channelOption").getAsJsonObject().get(e.getChannel().getId()) !=null) {
+//        if (Main.settingValue.get("osu!").getAsJsonObject().get("channelOption").getAsJsonObject().get(e.getChannel().getId()) !=null) {
+//
+//            switch (Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).getAsString()) {
+//                case "gatari":
+//                    new com.thftgr.osu_Servers.gatari.gatariMain().event(e);
+//                    break;
+//                case "debian":
+//                    new com.thftgr.osu_Servers.Debian.debainMain().event(e);
+//                    break;
+//
+//            }
+//
+//        }
 
-            switch (Main.settingValue.get("discord.channelOption").getAsJsonObject().get(e.getChannel().getId()).getAsString()) {
-                case "gatari":
-                    new com.thftgr.osu_Servers.gatari.gatariMain().event(e);
-                    break;
-                case "debian":
-                    new com.thftgr.osu_Servers.Debian.debainMain().event(e);
-                    break;
 
-            }
 
+        if(e.getMessage().getContentRaw().contains(" -d") | e.getMessage().getContentRaw().contains(" --debian")){
+            new Thread(new EventThread.debian(e)).start();
+
+        }else if(e.getMessage().getContentRaw().contains(" -g") | e.getMessage().getContentRaw().contains(" --gatari")){
+            new Thread(new EventThread.gatari(e)).start();
+        }else{
+            new Thread(new EventThread.bancho(e)).start();
         }
 
-        new Thread(new EventThread.bancho(e)).start();
+
+
 
 
 //        String cmd = messageFormChannel.substring(1);

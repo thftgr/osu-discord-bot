@@ -17,8 +17,38 @@ public class EventThread {
 
             new com.thftgr.osu_Servers.bancho.banchoMain().event(e);
         }
-
     }
+
+    public static class gatari implements Runnable {
+        MessageReceivedEvent e;
+
+        public gatari(MessageReceivedEvent e) {
+            this.e = e;
+        }
+
+        public void run() {
+
+            new com.thftgr.osu_Servers.gatari.gatariMain().event(e);
+        }
+    }
+    public static class debian implements Runnable {
+        MessageReceivedEvent e;
+
+        public debian(MessageReceivedEvent e) {
+            this.e = e;
+        }
+
+        public void run() {
+
+            new com.thftgr.osu_Servers.Debian.debainMain().event(e);
+        }
+    }
+
+
+
+
+
+
 
     public static class banchoRankedMapWhatcher implements Runnable {
 
