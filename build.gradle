@@ -13,6 +13,7 @@ repositories {
 }
 
 
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation 'com.google.guava:guava:26.0-jre'
@@ -22,12 +23,15 @@ dependencies {
     compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
     implementation 'com.google.code.gson:gson:2.8.6'
 //    compile 'com.github.francesco149:koohii:1.2.2'
-    compile group: 'net.lingala.zip4j', name: 'zip4j', version: '2.6.1'
+//    compile group: 'net.lingala.zip4j', name: 'zip4j', version: '2.6.1'
+
+    // https://mvnrepository.com/artifact/org.openpnp/opencv
+    compile group: 'org.openpnp', name: 'opencv', version: '4.3.0-2'
 
 
-    
+
     //=====testing =====
-    //compile 'net.sourceforge.tess4j:tess4j:4.5.1'
+    compile 'net.sourceforge.tess4j:tess4j:4.5.1'
 
 //    compile group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha1'
 //    compile 'org.slf4j:slf4j-jdk14:2.0.0-alpha1'
@@ -37,10 +41,24 @@ dependencies {
 //    annotationProcessor 'io.vertx:vertx-web-api-service:3.9.1'
 //    compile 'io.vertx:vertx-web-api-service:3.9.1'
 //    compile 'org.openpnp:opencv:4.3.0-1'
-//    compile 'org.tensorflow:tensorflow:1.14.0'
 
+    //텐서플로우
+//    compile 'org.tensorflow:tensorflow:1.14.0'
+    compile group: 'org.tensorflow', name: 'tensorflow', version: '1.14.0'
+    compile group: 'org.tensorflow', name: 'libtensorflow', version: '1.14.0'
+
+
+    // Please read the requirements for the GPU support here: https://www.tensorflow.org/install/install_java
+//    compile group: 'org.tensorflow', name: 'libtensorflow_jni_gpu', version: '1.14.0'
+
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile 'org.apache.commons:commons-math3:3.2'
+
+    compile group: 'org.slf4j', name:'slf4j-api', version: '1.7.2'
+    compile group: 'ch.qos.logback', name:'logback-classic', version: '1.0.9'
+    compile group: 'ch.qos.logback', name:'logback-core', version: '1.0.9'
 // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
+//    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
 
 
 
