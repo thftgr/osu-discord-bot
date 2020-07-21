@@ -47,6 +47,7 @@ public class banchoMain {
                 }
                 new printBeatmap().beatmap(e.getChannel(), array[1], ((array.length > 2) ? array[2] : null));
                 break;
+
         }
     }
 

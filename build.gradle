@@ -18,7 +18,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation 'com.google.guava:guava:26.0-jre'
     testImplementation 'junit:junit:4.12'
-    compile "net.dv8tion:JDA:4.1.1_101"
+    compile "net.dv8tion:JDA:4.2.0_181"
     compile files("${System.properties['java.home']}/../lib/tools.jar")
     compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -26,12 +26,12 @@ dependencies {
 //    compile group: 'net.lingala.zip4j', name: 'zip4j', version: '2.6.1'
 
     // https://mvnrepository.com/artifact/org.openpnp/opencv
-    compile group: 'org.openpnp', name: 'opencv', version: '4.3.0-2'
+//    compile group: 'org.openpnp', name: 'opencv', version: '4.3.0-2'
 
 
 
     //=====testing =====
-    compile 'net.sourceforge.tess4j:tess4j:4.5.1'
+//    compile 'net.sourceforge.tess4j:tess4j:4.5.1'
 
 //    compile group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha1'
 //    compile 'org.slf4j:slf4j-jdk14:2.0.0-alpha1'

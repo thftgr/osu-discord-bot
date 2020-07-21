@@ -50,17 +50,17 @@ public class EventThread {
 
 
 
-    public static class banchoRankedMapWhatcher implements Runnable {
-
-        public void run() {
-            while(true){
-                System.out.println("started Rankmap Watchet");
-                new com.thftgr.osu_Servers.bancho.NewRankedMapWatcher().RankedMapWatcher();
-                System.out.println("stoped Rankmap Watchet");
-            }
-        }
-
-    }
+//    public static class banchoRankedMapWhatcher implements Runnable {
+//
+//        public void run() {
+//            while(true){
+//                System.out.println("started Rankmap Watchet");
+//                new com.thftgr.osu_Servers.bancho.NewRankedMapWatcher().RankedMapWatcher();
+//                System.out.println("stoped Rankmap Watchet");
+//            }
+//        }
+//
+//    }
 
 
 }

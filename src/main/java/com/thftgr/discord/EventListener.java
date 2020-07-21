@@ -1,6 +1,7 @@
 package com.thftgr.discord;
 
 
+import com.thftgr.osu_Servers.bancho.NewRankedMapWatcher;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -11,6 +12,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
+import java.util.Timer;
 
 
 public class EventListener extends ListenerAdapter {
@@ -35,7 +37,8 @@ public class EventListener extends ListenerAdapter {
         super.onReady(event);
         //new serverThread(new ThreadRun.rankWatcher()).start();
         mainJda = event.getJDA();
-        new Thread(new EventThread.banchoRankedMapWhatcher()).start();
+        //new Thread(new EventThread.banchoRankedMapWhatcher()).start();
+        new Timer().schedule(new NewRankedMapWatcher(),0,60000);
 
     }
 

@@ -3,7 +3,9 @@ package com.thftgr.discord;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+
 
 import java.io.FileReader;
 //rel
@@ -20,13 +22,21 @@ public class Main {
 
         try {
             settingValue = (JsonObject) JsonParser.parseReader(new Gson().newJsonReader(new FileReader("setting/Setting.json")));
-
-            JDABuilder jb = new JDABuilder();
-            jb.setToken(settingValue.get("discord").getAsJsonObject()
-                    .get("token").getAsString());
+            JDABuilder jb = JDABuilder.createDefault(settingValue.get("discord").getAsJsonObject().get("token").getAsString());
             jb.addEventListeners(new EventListener());
             jb.setMaxReconnectDelay(32);
             jb.build();
+
+
+
+
+            //            JDA jda = JDABuilder.createDefault("token").build();
+//            JDABuilder jb = new JDABuilder();
+//            jb.setToken(settingValue.get("discord").getAsJsonObject().get("token").getAsString());
+//            jb.addEventListeners(new EventListener());
+//            jb.setMaxReconnectDelay(32);
+//            jb.build();
+
 
         } catch (Exception e) {
             System.out.println(e);
