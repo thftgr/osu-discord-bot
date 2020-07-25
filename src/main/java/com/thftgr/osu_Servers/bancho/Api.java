@@ -20,6 +20,7 @@ public class Api {
         try {
             String Parm = "k=" + Main.settingValue.get("osu!").getAsJsonObject().get("apiKey").getAsString() + Parameters;
 //            System.out.println("https://osu.ppy.sh/api/" + url + "?" + Parm);
+            System.out.println("https://osu.ppy.sh/api/" + url + "?" + Parm);
             HttpURLConnection httpURLConnection = connectServer("https://osu.ppy.sh/api/" + url + "?" + Parm);
             httpURLConnection.setConnectTimeout(5000);
 //            System.out.println(httpURLConnection.getConnectTimeout());

@@ -16,30 +16,28 @@ import java.io.FileReader;
 
 public class Main {
     public static JsonObject settingValue;
-
+    public static JDA jda;
 
     public static void main(String[] args) {
+        new Main().setJDA();
+    }
 
+
+
+
+    void setJDA() {
         try {
             settingValue = (JsonObject) JsonParser.parseReader(new Gson().newJsonReader(new FileReader("setting/Setting.json")));
-            JDABuilder jb = JDABuilder.createDefault(settingValue.get("discord").getAsJsonObject().get("token").getAsString());
-            jb.addEventListeners(new EventListener());
-            jb.setMaxReconnectDelay(32);
-            jb.build();
 
-
-
-
-            //            JDA jda = JDABuilder.createDefault("token").build();
-//            JDABuilder jb = new JDABuilder();
-//            jb.setToken(settingValue.get("discord").getAsJsonObject().get("token").getAsString());
-//            jb.addEventListeners(new EventListener());
-//            jb.setMaxReconnectDelay(32);
-//            jb.build();
-
+            jda = JDABuilder.createDefault(settingValue.get("discord").getAsJsonObject().get("token").getAsString())
+                    .addEventListeners(new EventListener())
+                    .setMaxReconnectDelay(32)
+                    .build();
+            jda.setAutoReconnect(true);
+            jda.setRequestTimeoutRetry(true);
 
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 

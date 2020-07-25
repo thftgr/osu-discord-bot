@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.events.ReconnectedEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.user.update.UserUpdateOnlineStatusEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -35,13 +36,17 @@ public class EventListener extends ListenerAdapter {
     @Override //봇 시작시
     public void onReady(@Nonnull ReadyEvent event) {
         super.onReady(event);
-        //new serverThread(new ThreadRun.rankWatcher()).start();
         mainJda = event.getJDA();
-        //new Thread(new EventThread.banchoRankedMapWhatcher()).start();
         new Timer().schedule(new NewRankedMapWatcher(),0,60000);
 
     }
 
+    @Override
+    public void onReconnect(@Nonnull ReconnectedEvent event) {
+        super.onReconnect(event);
+        mainJda = event.getJDA();
+        System.out.println("[ JDA ] Reconnected");
+    }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
