@@ -5,8 +5,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class debainMain {
     public void event(MessageReceivedEvent e) {
         String message = e.getMessage().getContentRaw().substring(1);
-        message = message.replaceAll(" -d ", "");
-        message = message.replaceAll(" --debian ","");
+        message = message.replaceAll(" -d ", " ");
+        message = message.replaceAll(" --debian "," ");
 
 
         String[] array = message.split(" ");
