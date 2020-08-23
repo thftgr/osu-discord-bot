@@ -3,7 +3,7 @@ package com.thftgr.discord;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.thftgr.discord.audioCore.audioEventListener;
+
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 
@@ -32,7 +32,6 @@ public class Main {
 
             jda = JDABuilder.createDefault(settingValue.get("discord").getAsJsonObject().get("token").getAsString())
                     .addEventListeners(new EventListener())
-                    .addEventListeners(new audioEventListener())
                     .setMaxReconnectDelay(32)
                     .build();
             jda.setAutoReconnect(true);
