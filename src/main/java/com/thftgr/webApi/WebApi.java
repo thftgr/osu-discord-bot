@@ -1,8 +1,12 @@
 package com.thftgr.webApi;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.thftgr.discord.Main;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -12,9 +16,11 @@ import java.util.List;
 import java.util.Map;
 
 public class WebApi {
+
     public JsonArray call(String url, String Parameters) {
 
         String Parm = "k=" + Main.settingValue.get("token.osu!").getAsString() + Parameters;
+        System.out.println("https://osu.ppy.sh/api/" + url + "?" + Parm);
 
         HttpURLConnection httpURLConnection = connectServer("https://osu.ppy.sh/api/" + url + "?" + Parm);
 
@@ -43,7 +49,6 @@ public class WebApi {
         return null;
 
     }
-
 
     public void download(String sourceUrl, String targetFilename) {
         FileOutputStream fileOutputStream = null;
@@ -107,4 +112,25 @@ public class WebApi {
             return null;
         }
     }
+
+//    public JsonElement callOkhttp(String url, String Parameters) {
+    public void callOkhttp(String url) {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .method("GET", null)
+                .build();
+        Response response = null;
+        try {
+            response = client.newCall(request).execute();
+
+        } catch (Exception e) {
+
+        }
+        System.out.println("okhttp");
+        System.out.println(response);
+    }
+
+
 }

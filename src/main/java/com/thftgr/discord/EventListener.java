@@ -48,38 +48,6 @@ public class EventListener extends ListenerAdapter {
         System.out.println("[ JDA ] Reconnected");
     }
 
-    @Override
-    public void onMessageReceived(MessageReceivedEvent e) {
-        try {
-            if (Objects.requireNonNull(e.getMember()).getUser().isBot()) return;
-        } catch (Exception ignored) {
-        }
-
-        //메세지가 커맨드가 맞는가.
-        if (!e.getMessage().getContentRaw().startsWith(Main.settingValue.get("commandStartWith").getAsString())) return;
-
-        //서버 주인인가.
-        if(Objects.requireNonNull(e.getMember()).isOwner()) new com.thftgr.discord.Private.ServerOwnerCommand().event(e);
-
-        //봇 주인인가.
-        if (e.getAuthor().getId().equals(Main.settingValue.get("discord").getAsJsonObject().get("botOwnerID").getAsString())) {
-            new com.thftgr.discord.Private.HiddenCommand().event(e);
-        }
-
-        if(e.getMessage().getContentRaw().contains(" -d") | e.getMessage().getContentRaw().contains(" --debian")){
-            new Thread(new EventThread.debian(e)).start();
-
-        }else if(e.getMessage().getContentRaw().contains(" -g") | e.getMessage().getContentRaw().contains(" --gatari")){
-            new Thread(new EventThread.gatari(e)).start();
-        }
-//        else{
-//            new Thread(new EventThread.bancho(e)).start();
-//        }
-
-
-    }
-
-
 }
 
 
