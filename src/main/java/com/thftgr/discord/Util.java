@@ -77,6 +77,11 @@ public class Util {
         }
     }
 
+    public Boolean isCommand(String s){
+        if(s.startsWith(Main.settingValue.get("commandStartWith").getAsString())) return true;
+        else return false;
+
+    }
 
 
 

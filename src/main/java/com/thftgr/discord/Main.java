@@ -32,6 +32,9 @@ public class Main {
 
             jda = JDABuilder.createDefault(settingValue.get("discord").getAsJsonObject().get("token").getAsString())
                     .addEventListeners(new EventListener())
+                    .addEventListeners(new com.thftgr.osu_Servers.bancho.JDAEventListener())
+                    .addEventListeners()
+                    .addEventListeners()
                     .setMaxReconnectDelay(32)
                     .build();
             jda.setAutoReconnect(true);

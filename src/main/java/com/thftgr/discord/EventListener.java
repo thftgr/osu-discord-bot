@@ -71,9 +71,10 @@ public class EventListener extends ListenerAdapter {
 
         }else if(e.getMessage().getContentRaw().contains(" -g") | e.getMessage().getContentRaw().contains(" --gatari")){
             new Thread(new EventThread.gatari(e)).start();
-        }else{
-            new Thread(new EventThread.bancho(e)).start();
         }
+//        else{
+//            new Thread(new EventThread.bancho(e)).start();
+//        }
 
 
     }
