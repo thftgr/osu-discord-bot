@@ -1,12 +1,8 @@
 package com.thftgr.webApi;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.thftgr.discord.Main;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -111,25 +107,6 @@ public class WebApi {
             e.printStackTrace();
             return null;
         }
-    }
-
-//    public JsonElement callOkhttp(String url, String Parameters) {
-    public void callOkhttp(String url) {
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        Request request = new Request.Builder()
-                .url(url)
-                .method("GET", null)
-                .build();
-        Response response = null;
-        try {
-            response = client.newCall(request).execute();
-
-        } catch (Exception e) {
-
-        }
-        System.out.println("okhttp");
-        System.out.println(response);
     }
 
 
