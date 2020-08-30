@@ -1,4 +1,4 @@
-package com.thftgr.osu_Servers.bancho;
+package com.thftgr.osu_Servers_bancho;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -70,7 +70,7 @@ public class PrintUser {
         if (mods.equals("1")) return "[Taiko]";
         if (mods.equals("2")) return "[Catch the beat]";
         if (mods.equals("3")) return "[Mania]";
-        return "Standard";
+        return "[Standard]";
     }
 
 

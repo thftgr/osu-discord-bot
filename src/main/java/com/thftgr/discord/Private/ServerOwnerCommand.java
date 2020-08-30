@@ -4,12 +4,20 @@ import com.google.gson.JsonArray;
 import com.thftgr.discord.Main;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+import javax.annotation.Nonnull;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class ServerOwnerCommand {
-    public void event(MessageReceivedEvent e) {
+public class ServerOwnerCommand extends ListenerAdapter {
+
+    @Override
+    public void onMessageReceived(@Nonnull MessageReceivedEvent e) {
+        if(!e.getMember().isOwner()) return;
+
+
+
         String cmd = e.getMessage().getContentRaw().substring(1);
         String[] array = cmd.split(" ");
 
@@ -17,13 +25,16 @@ public class ServerOwnerCommand {
 
             case "rmn":
             case "rank_map_notice":
+                if (!e.getMember().isOwner()) {
+                    e.getChannel().sendMessage("This command allow for server admin\n call the server admin.").queue();
+                    return;
+                }
+
                 setNewRankedMapnotice(e.getChannel());
                 break;
 
         }
     }
-
-
 
 
     void setNewRankedMapnotice(MessageChannel channel) {
@@ -46,6 +57,7 @@ public class ServerOwnerCommand {
     }
 
     void settingSave() {
+
         try {
             FileWriter fw = new FileWriter("setting/Setting.json", false);
             fw.write(Main.settingValue.toString());
@@ -53,5 +65,7 @@ public class ServerOwnerCommand {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 }

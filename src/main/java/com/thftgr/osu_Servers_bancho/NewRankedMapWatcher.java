@@ -1,4 +1,4 @@
-package com.thftgr.osu_Servers.bancho;
+package com.thftgr.osu_Servers_bancho;
 
 import com.google.gson.JsonArray;
 import com.thftgr.discord.EventListener;
@@ -18,6 +18,7 @@ public class NewRankedMapWatcher extends TimerTask {
     @Override
     public void run() {
 
+
         if (jda.getStatus() != JDA.Status.CONNECTED) return;
 
         if (Main.settingValue.get("osu!").getAsJsonObject().isJsonNull()) {
@@ -25,7 +26,6 @@ public class NewRankedMapWatcher extends TimerTask {
             settingSave();
         }
         try {
-//            String parm = "&since=" + "2020-07-26 09:16:30";
             String parm = "&since=" + Main.settingValue.get("osu!").getAsJsonObject().get("lastRankedMapCheck").getAsString();
             JsonArray newRankedBeatmaps = new Api().call("get_beatmaps", parm);
             System.out.println("time = " + new Date().toString() + " : count = " + newRankedBeatmaps.size());
@@ -80,7 +80,7 @@ public class NewRankedMapWatcher extends TimerTask {
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("setting save fail.");
+            System.out.println("setting save fail. : "+ e.getMessage());
         }
     }
 
