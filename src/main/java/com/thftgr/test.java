@@ -29,22 +29,29 @@ public class test {
         while (true) {
             for (int i = 0; i < proxyList.size(); i++) {
                 timetmp = System.currentTimeMillis();
+
+
+
                 new test().setProxy(proxyList.get(i).getAsJsonObject());
                 System.out.println("=====================================");
                 System.out.println(System.getProperty("https.proxyHost"));
                 try {
                     Thread.sleep(200);
                     if (new test().generator("7e2757b7-badc-4303-8cd0-2eefa9d78e3b")) {
+//                    if (new test().generator("cf62e033-9e89-49c6-9830-5e61adc29ac5")) {
                         dataCount += 1;
                         System.out.println("generated data : " + dataCount + "GB");
+                        System.out.println((System.currentTimeMillis() - timetmp) + "ms\n");
+                        System.out.println(((System.currentTimeMillis() - startTime)/dataCount) + "Ms/GB\n");
                     } else {
                         System.out.println("generate fail. | data : " + dataCount + "GB");
+
                     }
                 } catch (Exception e) {
                     System.out.println("generate fail. | data : " + dataCount + "GB");
+                    proxyList.remove(i);
                 }
-                System.out.println((System.currentTimeMillis() - timetmp) + "ms\n");
-                System.out.println(((System.currentTimeMillis() - startTime)/dataCount) + "Ms/GB\n");
+
             }
         }
     }
@@ -129,4 +136,5 @@ public class test {
     void setProxy(JsonObject ip_port) {
         System.setProperty("https.proxyHost", ip_port.get("ip").getAsString());
         System.setProperty("https.proxyPort", ip_port.get("port").getAsString());
-    }}
+    }
+}
