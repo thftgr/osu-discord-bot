@@ -129,7 +129,4 @@ public class test {
     void setProxy(JsonObject ip_port) {
         System.setProperty("https.proxyHost", ip_port.get("ip").getAsString());
         System.setProperty("https.proxyPort", ip_port.get("port").getAsString());
-    }
-
-
-}
+    }}
