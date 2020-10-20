@@ -19,7 +19,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     compile "net.dv8tion:JDA:4.2.0_181"
     compile files("${System.properties['java.home']}/../lib/tools.jar")
-    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
     implementation 'com.google.code.gson:gson:2.8.6'
 
 

@@ -36,10 +36,10 @@ public class printBeatmap {
 
         int totaltime = mapJsonObject.get("total_length").isJsonNull() ? 0 : mapJsonObject.get("total_length").getAsInt();
 
-        String msg = "";
         String BloodcatLink = new WebApi().getBloodcatPriviewLink(mapJsonObject.get("beatmap_id").getAsString());
         JsonObject mapData = new com.thftgr.osuPerformance.PerfomanceMain().ppCalc(mapJsonArray);
 
+        String msg = "";
         msg += "▸Download: ";
         msg += "[ [Bancho] ](https://osu.ppy.sh/beatmapsets/"+mapJsonObject.get("beatmapset_id").getAsString()+"/download)";
         msg += "  |  ";

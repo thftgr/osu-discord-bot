@@ -1,11 +1,13 @@
 package com.thftgr.osu_Servers_bancho;
 
-import com.google.gson.JsonArray;
+import com.google.gson.*;
 import com.thftgr.discord.EventListener;
 import com.thftgr.discord.Main;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Time;
@@ -74,11 +76,18 @@ public class NewRankedMapWatcher extends TimerTask {
     }
 
     void settingSave() {
+        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(Main.settingValue));
+
+
+
+
+
+
         try {
             FileWriter fw = new FileWriter("setting/Setting.json", false);
-            fw.write(Main.settingValue.toString());
+            fw.write(new GsonBuilder().setPrettyPrinting().create().toJson(Main.settingValue));
             fw.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("setting save fail. : "+ e.getMessage());
         }

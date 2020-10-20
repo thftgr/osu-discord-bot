@@ -1,6 +1,9 @@
 package com.thftgr.discord.Private;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.stream.JsonWriter;
 import com.thftgr.discord.Main;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -9,12 +12,13 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import javax.annotation.Nonnull;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 public class ServerOwnerCommand extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@Nonnull MessageReceivedEvent e) {
-        if(!e.getMember().isOwner()) return;
+        if(!Objects.requireNonNull(e.getMember()).isOwner()) return;
 
 
 
@@ -57,15 +61,24 @@ public class ServerOwnerCommand extends ListenerAdapter {
     }
 
     void settingSave() {
-
         try {
-            FileWriter fw = new FileWriter("setting/Setting.json", false);
-            fw.write(Main.settingValue.toString());
-            fw.close();
-        } catch (IOException e) {
+            JsonWriter jsonWriter = new JsonWriter(new FileWriter("setting/Setting.json"));
+            jsonWriter.setIndent("    ");
+            Gson gson = new GsonBuilder().serializeNulls().create();
+            gson.toJson(Main.settingValue,jsonWriter);
+            jsonWriter.close();
+
+        }catch (Exception e){
             e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
-
+//        try {
+//            FileWriter fw = new FileWriter("setting/Setting.json", false);
+//            fw.write(Main.settingValue.toString());
+//            fw.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

@@ -3,8 +3,8 @@ package com.thftgr.discord;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.thftgr.discord.Private.ServerOwnerCommand;
 import com.thftgr.osu_Servers_bancho.JDAEventListener_bancho;
-import com.thftgr.osu_Servers_debian.JDAEventListener_debian;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 
@@ -20,6 +20,9 @@ public class Main {
     public static JDA jda;
 
     public static void main(String[] args) {
+
+//        Scanner sc = new Scanner(System.in);
+//        String input = sc.next();
         new Main().setJDA();
     }
 
@@ -29,7 +32,7 @@ public class Main {
             jda = JDABuilder.createDefault(settingValue.get("discord").getAsJsonObject().get("token").getAsString())
                     .addEventListeners(new EventListener())
                     .addEventListeners(new JDAEventListener_bancho())
-                    .addEventListeners(new JDAEventListener_debian())
+                    .addEventListeners(new ServerOwnerCommand())
                     .setMaxReconnectDelay(32)
                     .build();
             jda.setAutoReconnect(true);
